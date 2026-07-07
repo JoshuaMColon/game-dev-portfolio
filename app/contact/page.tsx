@@ -7,7 +7,7 @@ export default function Contact() {
       <h1 className="font-display font-bold text-3xl mb-6">Get in touch</h1>
       <p className="text-ink-muted leading-relaxed mb-8">
         Open to gameplay programming roles, junior positions, and small-studio teams.
-        Reach out directly — replace the details below with your own.
+        Reach out directly
       </p>
       <dl className="space-y-4 font-mono text-sm">
         <div>
