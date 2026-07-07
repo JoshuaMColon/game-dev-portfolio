@@ -27,7 +27,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               className="text-phosphor hover:underline"
             >
-              linkedin.com/in/your-profile
+              linkedin.com/in/joshua-colon2
             </a>
           </dd>
         </div>
