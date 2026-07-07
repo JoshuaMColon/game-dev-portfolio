@@ -14,7 +14,7 @@ export default function Contact() {
           <dt className="text-ink-dim text-xs mb-1">EMAIL</dt>
           <dd>
             <a href="mailto:you@example.com" className="text-phosphor hover:underline">
-              you@example.com
+              joshua.m.colon2@gmail.com
             </a>
           </dd>
         </div>
@@ -22,7 +22,7 @@ export default function Contact() {
           <dt className="text-ink-dim text-xs mb-1">LINKEDIN</dt>
           <dd>
             <a
-              href="https://linkedin.com/in/your-profile"
+              href="https://www.linkedin.com/in/joshua-colon2"
               target="_blank"
               rel="noopener noreferrer"
               className="text-phosphor hover:underline"
