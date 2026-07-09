@@ -3,17 +3,20 @@ export const metadata = { title: "Contact — Joshua Colon" };
 export default function Contact() {
   return (
     <section className="max-w-2xl mx-auto px-6 py-16">
-      <div className="font-mono text-xs tracking-widest text-phosphor mb-3">
+      <div className="font-mono text-xs tracking-widest text-[var(--phosphor)] mb-3">
         CONTACT
       </div>
-      <h1 className="font-display font-bold text-3xl mb-6">Get in touch</h1>
-      <p className="text-ink-muted leading-relaxed mb-8">
-        Open to gameplay programming roles, junior positions, and small-studio
-        teams. Reach out directly
+      <h1 className="font-display font-bold text-3xl mb-6 text-[var(--text-primary)]">
+        Get in touch
+      </h1>
+      <p className="text-[var(--text-muted)] leading-relaxed mb-8">
+        I&apos;m interested in opportunities involving gameplay programming,
+        technical implementation, and collaborative development work. If
+        you&apos;d like to connect, feel free to reach out directly.
       </p>
       <dl className="space-y-4 font-mono text-sm">
         <div>
-          <dt className="text-ink-dim text-xs mb-1">EMAIL</dt>
+          <dt className="text-[var(--text-dim)] text-xs mb-1">EMAIL</dt>
           <dd>
             <a
               href="mailto:you@example.com"
@@ -24,7 +27,7 @@ export default function Contact() {
           </dd>
         </div>
         <div>
-          <dt className="text-ink-dim text-xs mb-1">LINKEDIN</dt>
+          <dt className="text-[var(--text-dim)] text-xs mb-1">LINKEDIN</dt>
           <dd>
             <a
               href="https://www.linkedin.com/in/joshua-colon2"
@@ -37,7 +40,7 @@ export default function Contact() {
           </dd>
         </div>
         <div>
-          <dt className="text-ink-dim text-xs mb-1">GITHUB</dt>
+          <dt className="text-[var(--text-dim)] text-xs mb-1">GITHUB</dt>
           <dd>
             <a
               href="https://github.com/JoshuaMColon"

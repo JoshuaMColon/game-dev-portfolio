@@ -1,14 +1,22 @@
-# Game Dev Portfolio
+# Joshua Colon | Gameplay Programmer Portfolio
 
-A Next.js + Tailwind portfolio site for a gameplay-programmer job hunt, built around a
-"systems dossier" visual identity — status indicators, mono-spaced specs, and a
-profiler-style status strip instead of a generic gamer template.
+This project is a polished, modern portfolio website built to present my work as a gameplay programmer in a way that feels professional, intentional, and tailored to the games industry. It highlights my systems-focused development work in Unreal Engine 5, while also reflecting my broader software engineering background.
 
-## Stack
+The site is designed to feel more like a technical portfolio than a generic personal website. It emphasizes clear project storytelling, gameplay systems, and a clean presentation that is easy to navigate for recruiters, collaborators, and studio leads.
 
-- Next.js 14 (App Router, TypeScript)
+## What this portfolio showcases
+
+- Gameplay programming work in Unreal Engine 5
+- Systems-oriented projects such as AI, combat, tools, and interactive mechanics
+- A professional layout with a refined dark/light mode experience
+- A structured presentation of current work, featured projects, and contact information
+
+## Tech stack
+
+- Next.js 14 with the App Router
+- TypeScript
 - Tailwind CSS
-- next/font (Space Grotesk, Inter, JetBrains Mono)
+- next/font for typography
 
 ## Getting started
 
@@ -17,36 +25,35 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000.
+Then open http://localhost:3000 in your browser.
 
-## Where to edit things
+## Project structure
 
-**All project content lives in one file:** `lib/projects.ts`
+The portfolio content is primarily managed through:
 
-Each project has:
-- `status`: `"flagship" | "in-progress" | "planned" | "complete"` — controls the tag color/label everywhere
-- `videoUrl`: add a YouTube embed URL (e.g. `https://www.youtube.com/embed/VIDEO_ID`) once you have a capture, and the "CAPTURE_PENDING" placeholder is replaced automatically
-- `githubUrl` / `itchUrl`: link out to the repo or a playable build
-- `whatIdImprove`: optional — a short honest note shown on the project's own page
+- [lib/projects.ts](lib/projects.ts) — project data, descriptions, status, and links
+- [app/page.tsx](app/page.tsx) — the homepage hero and featured work
+- [app/about/page.tsx](app/about/page.tsx) — professional overview
+- [app/contact/page.tsx](app/contact/page.tsx) — contact details and links
+- [components/SystemStatus.tsx](components/SystemStatus.tsx) — the status-based systems strip
 
-To add a new project, just add another object to the `projects` array — it will
-automatically show up on `/projects` and get its own `/projects/[slug]` page.
+## Editing content
 
-**Homepage flagship**: whichever project has `featured: true` in `lib/projects.ts`
-becomes the homepage hero automatically.
+To update a project, edit the corresponding entry in [lib/projects.ts](lib/projects.ts). Each project includes:
 
-**System Status strip** (the homepage signature element): edit the `CATEGORIES`
-array in `components/SystemStatus.tsx` to reflect what you're actively building
-(`active`), what's next (`building`), or what's on deck (`planned`).
+- `status` — controls the visible status label and visual treatment
+- `videoUrl` — optional embed link for gameplay capture
+- `githubUrl` / `itchUrl` — project links
+- `whatIdImprove` — optional note about future improvements
 
-**About / Contact**: edit `app/about/page.tsx` and `app/contact/page.tsx` directly —
-replace the placeholder email and LinkedIn URL in `app/contact/page.tsx`.
+To add a new project, create another object in the projects array. It will automatically appear on the projects page and receive its own detail route.
 
-## Deploying to Vercel
+The homepage featured project is determined by the project marked with `featured: true` in [lib/projects.ts](lib/projects.ts).
+
+## Deployment
+
+This app is ready for deployment on Vercel or any standard Next.js hosting platform.
 
 ```bash
 npx vercel
 ```
-
-or connect the GitHub repo directly in the Vercel dashboard — either way, no config
-changes needed, it's a standard Next.js app.

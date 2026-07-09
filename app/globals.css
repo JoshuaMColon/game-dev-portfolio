@@ -4,6 +4,34 @@
 
 :root {
   color-scheme: dark;
+  --bg-start: #0f1216;
+  --bg-end: #14171c;
+  --surface: #14171c;
+  --surface-strong: #1c2129;
+  --surface-soft: #f4f5f7;
+  --text-primary: #e8eaed;
+  --text-muted: #8b92a0;
+  --text-dim: #5c6472;
+  --line: #2e3540;
+  --phosphor: #7fdbae;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+  --bg-start: #f7f8fa;
+  --bg-end: #eef2f6;
+  --surface: #ffffff;
+  --surface-strong: #f3f5f8;
+  --surface-soft: #f8fafc;
+  --text-primary: #111827;
+  --text-muted: #4b5563;
+  --text-dim: #6b7280;
+  --line: #d6dbe2;
+  --phosphor: #16795b;
 }
 
 html {
@@ -12,14 +40,19 @@ html {
 
 body {
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(127, 219, 174, 0.06), transparent),
-    linear-gradient(180deg, #0F1216 0%, #14171C 100%);
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(127, 219, 174, 0.18),
+      transparent
+    ),
+    linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
   background-attachment: fixed;
+  color: var(--text-primary);
 }
 
 ::selection {
   background-color: rgba(127, 219, 174, 0.25);
-  color: #E8EAED;
+  color: #e8eaed;
 }
 
 /* Visible keyboard focus everywhere */
@@ -27,7 +60,7 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #7FDBAE;
+  outline: 2px solid #7fdbae;
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -44,5 +77,10 @@ textarea:focus-visible {
 }
 
 .grain-line {
-  background-image: linear-gradient(180deg, transparent, rgba(46, 53, 64, 0.6), transparent);
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(46, 53, 64, 0.6),
+    transparent
+  );
 }
