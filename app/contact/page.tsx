@@ -10,9 +10,12 @@ export default function Contact() {
         Get in touch
       </h1>
       <p className="text-[var(--text-muted)] leading-relaxed mb-8">
-        I&apos;m interested in opportunities involving gameplay programming,
-        technical implementation, and collaborative development work. If
-        you&apos;d like to connect, feel free to reach out directly.
+        <DecryptedText
+          text="I'm interested in opportunities involving gameplay programming, technical implementation, and collaborative development work. If you'd like to connect, feel free to reach out directly."
+          animateOn="hover"
+          className="text-[var(--text-muted)]"
+          encryptedClassName="text-[var(--text-muted)] opacity-80"
+        />
       </p>
       <dl className="space-y-4 font-mono text-sm">
         <div>

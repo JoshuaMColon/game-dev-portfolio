@@ -1,3 +1,4 @@
+import BackgroundEffects from "@/components/BackgroundEffects";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import type { Metadata } from "next";
@@ -35,9 +36,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${display.variable} ${body.variable} ${mono.variable} bg-[var(--bg-start)] text-[var(--text-primary)] font-body antialiased transition-colors duration-300`}
+        className={`${display.variable} ${body.variable} ${mono.variable} bg-[var(--bg-start)] text-[var(--text-primary)] font-body antialiased transition-colors duration-300 relative`}
       >
-        <div className="min-h-screen flex flex-col">
+        <BackgroundEffects />
+        <div className="min-h-screen flex flex-col relative z-10">
           <Nav />
           <main className="flex-1">{children}</main>
           <Footer />

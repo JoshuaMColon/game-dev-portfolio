@@ -12,28 +12,36 @@ export default function About() {
 
       <div className="space-y-6 text-[var(--text-muted)] leading-relaxed">
         <p>
-          I&apos;m a gameplay programmer focused on building systems that feel
-          intentional, reliable, and easy to extend. My work centers on Unreal
-          Engine 5, with emphasis on AI behavior, combat logic, interactive
-          tools, and the underlying architecture that supports a polished
-          experience.
+          <DecryptedText
+            text="I'm a gameplay programmer focused on building systems that feel intentional, reliable, and easy to extend. My work centers on Unreal Engine 5, with emphasis on AI behavior, combat logic, interactive tools, and the underlying architecture that supports a polished experience."
+            animateOn="hover"
+            className="text-[var(--text-muted)]"
+            encryptedClassName="text-[var(--text-muted)] opacity-80"
+          />
         </p>
         <p>
-          I also bring a strong software engineering background from full-stack
-          web development, which shapes the way I approach game systems: modular
-          design, maintainable code, and thoughtful implementation from the
-          start.
+          <DecryptedText
+            text="I also bring a strong software engineering background from full-stack web development, which shapes the way I approach game systems: modular design, maintainable code, and thoughtful implementation from the start."
+            animateOn="hover"
+            className="text-[var(--text-muted)]"
+            encryptedClassName="text-[var(--text-muted)] opacity-80"
+          />
         </p>
         <p>
-          Before moving into game development, I spent twelve years in data
-          management, compliance, and logistics across the Marine Corps and
-          Army. That experience strengthened my approach to state management,
-          rules-driven systems, and clear, dependable engineering practices.
+          <DecryptedText
+            text="Before moving into game development, I spent twelve years in data management, compliance, and logistics across the Marine Corps and Army. That experience strengthened my approach to state management, rules-driven systems, and clear, dependable engineering practices."
+            animateOn="hover"
+            className="text-[var(--text-muted)]"
+            encryptedClassName="text-[var(--text-muted)] opacity-80"
+          />
         </p>
         <p>
-          I&apos;m building this portfolio one complete system at a time, with a
-          focus on craftsmanship and long-term growth as I work toward
-          contributing to a strong development team.
+          <DecryptedText
+            text="I'm building this portfolio one complete system at a time, with a focus on craftsmanship and long-term growth as I work toward contributing to a strong development team."
+            animateOn="hover"
+            className="text-[var(--text-muted)]"
+            encryptedClassName="text-[var(--text-muted)] opacity-80"
+          />
         </p>
       </div>
 

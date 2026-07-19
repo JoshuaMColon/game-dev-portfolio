@@ -1,5 +1,13 @@
 import Link from "next/link";
+import GooeyNav from "./GooeyNav";
 import ThemeToggle from "./ThemeToggle";
+
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Contact", href: "/contact" },
+];
 
 export default function Nav() {
   return (
@@ -11,27 +19,10 @@ export default function Nav() {
         >
           Joshua Colon
         </Link>
-        <div className="flex items-center gap-4">
-          <nav className="flex items-center gap-5 font-mono text-sm text-[var(--text-muted)]">
-            <Link
-              href="/projects"
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              Projects
-            </Link>
-            <Link
-              href="/about"
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className="hover:text-[var(--text-primary)] transition-colors"
-            >
-              Contact
-            </Link>
-          </nav>
+        <div className="flex items-center gap-4 min-w-0">
+          <div className="min-w-0">
+            <GooeyNav items={navItems} />
+          </div>
           <ThemeToggle />
         </div>
       </div>
