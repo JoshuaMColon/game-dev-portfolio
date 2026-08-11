@@ -1,3 +1,5 @@
+import DecryptedText from "../../components/DecryptedText";
+
 export const metadata = { title: "Contact — Joshua Colon" };
 
 export default function Contact() {
