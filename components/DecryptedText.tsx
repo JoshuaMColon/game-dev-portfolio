@@ -13,7 +13,6 @@ interface DecryptedTextProps extends HTMLAttributes<HTMLSpanElement> {
   text: string;
   speed?: number;
   maxIterations?: number;
-  sequential?: boolean;
   revealDirection?: "start" | "end" | "center";
   useOriginalCharsOnly?: boolean;
   characters?: string;
@@ -85,7 +84,6 @@ export default function DecryptedText({
   text,
   speed = 50,
   maxIterations = 10,
-  sequential = false,
   revealDirection = "start",
   useOriginalCharsOnly = false,
   characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+",
@@ -101,7 +99,6 @@ export default function DecryptedText({
     new Set(),
   );
   const [isAnimating, setIsAnimating] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const [isDecrypted, setIsDecrypted] = useState(animateOn !== "click");
   const [direction, setDirection] = useState<"forward" | "reverse">("forward");
 
