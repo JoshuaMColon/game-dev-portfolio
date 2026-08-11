@@ -23,13 +23,13 @@ export const projects: Project[] = [
     slug: "scp-tps",
     title: "SCP_TPS",
     oneLiner:
-      "Third-person vertical slice — a patrolling AI threat, a lightning-based hazard, and a full core gameplay loop.",
+      "Third-person vertical slice — a patrolling AI threat, niagara built hazard effect, and a full core gameplay loop.",
     status: "in-progress",
     engine: "Unreal Engine 5",
     language: ["C++", "Blueprint"],
     systems: ["AI Behavior Tree", "Niagara VFX", "Player Controller", "UI/HUD"],
     description:
-      "A third-person vertical slice built around a single enemy encounter. The enemy uses a Behavior Tree driven patrol/detect/chase/attack loop, paired with a custom Niagara lightning system (NS_Lightning_Wrap / NS_Lightning_Emitter) as both a visual signature and an environmental hazard. Version-controlled with Git + Git LFS through the UE5 Git Beta plugin.",
+      "A third-person vertical slice built around a single enemy encounter. The enemy uses a Behavior Tree driven patrol/detect/chase/attack loop, paired with a custom Niagara system as both a visual signature and an environmental hazard. Version-controlled with Git + Git LFS through the UE5 Git Beta plugin.",
     githubUrl: "https://github.com/JoshuaMColon",
     featured: true,
   },

@@ -44,7 +44,7 @@ export default function SystemStatus() {
     >
       <div className="max-w-5xl mx-auto px-6 py-6">
         <div className="font-mono text-xs text-[var(--text-dim)] mb-4 tracking-wider">
-          SYSTEM_STATUS.LOG
+          SYSTEM STATUS LOG
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {CATEGORIES.map((cat) => {

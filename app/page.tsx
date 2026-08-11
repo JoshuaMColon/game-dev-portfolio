@@ -36,7 +36,7 @@ export default function Home() {
               ) : (
                 <div className="text-center px-6">
                   <div className="font-mono text-xs text-ink-dim tracking-wider mb-2">
-                    CAPTURE_PENDING
+                    CAPTURE PENDING
                   </div>
                   <p className="text-ink-dim text-sm">
                     Gameplay capture goes here once the flagship vertical slice
@@ -56,7 +56,7 @@ export default function Home() {
           {/* Spec sheet */}
           <div className="border border-[var(--line)] rounded-md bg-[var(--surface)] p-5 font-mono text-xs shadow-sm">
             <div className="text-[var(--text-dim)] tracking-wider mb-4">
-              PROJECT_SPEC
+              PROJECT SPEC
             </div>
             <dl className="space-y-3">
               <div>
@@ -89,7 +89,7 @@ export default function Home() {
               href={`/projects/${flagship.slug}`}
               className="inline-block mt-6 text-[var(--phosphor)] hover:underline"
             >
-              VIEW_DOSSIER →
+              VIEW VERTICAL SLICE →
             </Link>
           </div>
         </div>

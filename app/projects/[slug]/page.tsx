@@ -53,7 +53,7 @@ export default function ProjectDetail({
           ) : (
             <div className="text-center px-6">
               <div className="font-mono text-xs text-[var(--text-dim)] tracking-wider mb-2">
-                CAPTURE_PENDING
+                CAPTURE PENDING
               </div>
               <p className="text-[var(--text-dim)] text-sm">
                 Gameplay capture coming soon.
@@ -96,7 +96,7 @@ export default function ProjectDetail({
       {project.whatIdImprove && (
         <div className="border-l-2 border-amber/50 pl-4 mb-8">
           <div className="font-mono text-[11px] text-amber tracking-wider mb-1">
-            WHAT_I_D_IMPROVE
+            WHAT I WOULD IMPROVE
           </div>
           <p className="text-[var(--text-muted)] text-sm">
             {project.whatIdImprove}

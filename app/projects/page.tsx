@@ -9,7 +9,7 @@ export default function ProjectsPage() {
   return (
     <section className="max-w-5xl mx-auto px-6 py-16">
       <div className="font-mono text-xs tracking-widest text-[var(--phosphor)] mb-3">
-        PROJECT_INDEX
+        PROJECT INDEX
       </div>
       <h1 className="font-display font-bold text-3xl mb-3 text-[var(--text-primary)]">
         Projects
