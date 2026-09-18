@@ -5,6 +5,8 @@ export type Project = {
   title: string;
   oneLiner: string;
   status: ProjectStatus;
+  teamProject?: boolean;
+  institution?: string;
   engine: string;
   language: string[];
   systems: string[];
@@ -32,6 +34,22 @@ export const projects: Project[] = [
       "A third-person vertical slice built around a single enemy encounter. The enemy uses a Behavior Tree driven patrol/detect/chase/attack loop, paired with a custom Niagara system as both a visual signature and an environmental hazard. Version-controlled with Git + Git LFS through the UE5 Git Beta plugin.",
     githubUrl: "https://github.com/JoshuaMColon",
     featured: true,
+  },
+  {
+    slug: "ghost-core",
+    title: "Ghost Core",
+    oneLiner:
+      "Completed capstone game developed with a Full Sail University team, featuring a body-swapping ghost gameplay loop.",
+    status: "complete",
+    teamProject: true,
+    institution: "Full Sail University",
+    engine: "Unreal Engine 5",
+    language: ["Blueprint"],
+    systems: ["Ghost Mode", "Exploration", "Team Production", "UI"],
+    description:
+      "Ghost Core is a completed team capstone project created with classmates at Full Sail University. The game centers on shifting between a physical body and ghost form while exploring its world and uncovering a path forward.",
+    videoUrl: "https://www.youtube.com/embed/5aajQ3SimfI",
+    itchUrl: "https://djxrealmz.itch.io/ghostcore",
   },
   {
     slug: "ai-combat-system",

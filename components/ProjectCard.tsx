@@ -22,12 +22,9 @@ export default function ProjectCard({ project }: { project: Project }) {
       >
         <Link
           href={`/projects/${project.slug}`}
-          className="absolute inset-0 z-0"
+          className="relative z-10 block h-full p-5 flex flex-col justify-between"
           aria-label={`View ${project.title}`}
         >
-          <span className="sr-only">View {project.title}</span>
-        </Link>
-        <div className="relative z-10 h-full p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-start justify-between gap-3 mb-3">
               <h3 className="font-display font-bold text-lg text-[var(--text-primary)] transition-colors">
@@ -49,7 +46,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               </span>
             ))}
           </div>
-        </div>
+        </Link>
       </BorderGlow>
     </PixelCard>
   );

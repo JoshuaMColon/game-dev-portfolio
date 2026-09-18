@@ -15,9 +15,8 @@ export default function ProjectsPage() {
         Projects
       </h1>
       <p className="text-[var(--text-muted)] max-w-xl mb-10">
-        This collection reflects the systems I&apos;m building and refining as I
-        develop the larger vertical slice. Each project is designed to
-        contribute something useful and reusable to the overall experience.
+        A mix of gameplay systems in progress and completed projects, including
+        team work from my Full Sail University capstone.
       </p>
       <div className="grid sm:grid-cols-2 gap-4">
         {projects.map((p) => (

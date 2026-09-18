@@ -41,6 +41,13 @@ export default function ProjectDetail({
         {project.oneLiner}
       </p>
 
+      {project.teamProject && (
+        <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 font-mono text-xs text-[var(--text-muted)]">
+          <span className="text-[var(--phosphor)]">TEAM PROJECT</span>
+          {project.institution && <span>{project.institution}</span>}
+        </div>
+      )}
+
       <div className="border border-[var(--line)] rounded-md overflow-hidden bg-[var(--surface)] mb-8 shadow-sm">
         <div className="aspect-video flex items-center justify-center bg-[var(--surface-strong)]">
           {project.videoUrl ? (
@@ -122,7 +129,7 @@ export default function ProjectDetail({
             rel="noopener noreferrer"
             className="text-phosphor hover:underline"
           >
-            PLAY →
+            PLAY ON ITCH.IO →
           </a>
         )}
       </div>
