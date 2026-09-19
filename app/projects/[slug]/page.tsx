@@ -45,6 +45,7 @@ export default function ProjectDetail({
         <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 font-mono text-xs text-[var(--text-muted)]">
           <span className="text-[var(--phosphor)]">TEAM PROJECT</span>
           {project.institution && <span>{project.institution}</span>}
+          {project.role && <span>{project.role}</span>}
         </div>
       )}
 

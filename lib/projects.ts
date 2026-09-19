@@ -7,6 +7,7 @@ export type Project = {
   status: ProjectStatus;
   teamProject?: boolean;
   institution?: string;
+  role?: string;
   engine: string;
   language: string[];
   systems: string[];
@@ -43,6 +44,7 @@ export const projects: Project[] = [
     status: "complete",
     teamProject: true,
     institution: "Full Sail University",
+    role: "Lead Level Designer",
     engine: "Unreal Engine 5",
     language: ["Blueprint"],
     systems: ["Ghost Mode", "Exploration", "Team Production", "UI"],
