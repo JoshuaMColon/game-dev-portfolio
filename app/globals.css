@@ -197,21 +197,35 @@ textarea:focus-visible {
     opacity: 0;
   }
 }
+/* Selected nav pill: opaque tinted bubble so the label stays readable (WCAG AA+) */
+.gooey-nav {
+  --pill-bg: #d4f2e3; /* light mint */
+  --pill-text: #0b3a2a; /* deep green, ~11:1 on the pill */
+  --pill-ring: rgba(22, 121, 91, 0.45);
+}
+.dark .gooey-nav {
+  --pill-bg: #7fdbae; /* phosphor */
+  --pill-text: #07110d; /* near-black, ~12:1 on the pill */
+  --pill-ring: rgba(127, 219, 174, 0.6);
+}
 .gooey-nav li.active {
-  color: var(--active-text);
+  color: var(--pill-text);
   text-shadow: none;
 }
 .gooey-nav li.active::after {
   opacity: 1;
   transform: scale(1);
-  background: var(--active-bg);
+  background: var(--pill-bg);
+  box-shadow:
+    0 0 0 1px var(--pill-ring),
+    0 0 14px -2px var(--pill-ring);
 }
 .gooey-nav li::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 8px;
-  background: var(--active-bg);
+  border-radius: 9999px;
+  background: var(--pill-bg);
   opacity: 0;
   transform: scale(0);
   transition: all 0.3s ease;
