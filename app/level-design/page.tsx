@@ -1,7 +1,8 @@
 import Link from "next/link";
 import AnnotatedPlan from "@/components/AnnotatedPlan";
 import CompareSlider from "@/components/CompareSlider";
-import ImageCarousel from "@/components/ImageCarousel";
+import DepthReferences from "@/components/DepthReferences";
+import MorphCarousel from "@/components/MorphCarousel";
 import IterationLog from "@/components/IterationLog";
 import LevelDesignCard from "@/components/LevelDesignCard";
 import LevelGallery from "@/components/LevelGallery";
@@ -137,10 +138,7 @@ export default function LevelDesignPage() {
           description="The references Site Zero is built from: the surface entrance, the Door 201 target look and the facility floor blueprints, gathered before the first greybox and used to plan composition, scale and room types."
         >
           <div className="px-5 pb-5">
-            <ImageCarousel
-              name="Reference images"
-              groups={[{ id: "refs", tab: "Reference", label: "Reference library", images: referenceImages }]}
-            />
+            <DepthReferences name="Reference images" group="Reference library" images={referenceImages} />
           </div>
         </LevelDesignCard>
 
@@ -202,8 +200,9 @@ export default function LevelDesignPage() {
             </h3>
             <span className="font-mono text-[10px] text-[var(--text-dim)]">{shotCount} SHOTS</span>
           </div>
-          <ImageCarousel
+          <MorphCarousel
             name="Blockout captures"
+            transition="shear"
             groups={blockoutGroups.map((g) => ({
               id: g.id,
               tab: g.label.split(" · ")[0].replace(" & encounter", ""),

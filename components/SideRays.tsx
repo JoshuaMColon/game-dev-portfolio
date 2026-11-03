@@ -106,10 +106,17 @@ const SideRays = ({
 
       if (!containerRef.current) return;
 
-      const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
-        alpha: true,
-      });
+      // No WebGL: leave the decorative rays off rather than throwing.
+      let renderer: Renderer;
+      try {
+        renderer = new Renderer({
+          dpr: Math.min(window.devicePixelRatio, 2),
+          alpha: true,
+        });
+      } catch {
+        return;
+      }
+      if (!renderer.gl) return;
       rendererRef.current = renderer;
 
       const gl = renderer.gl;

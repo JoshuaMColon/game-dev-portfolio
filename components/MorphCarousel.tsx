@@ -1,8 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Lightbox } from "@/components/LevelGallery";
+import dynamic from "next/dynamic";
+import type { MorphTransition } from "@/components/MorphStage";
+
+// The WebGL layer (ogl) is only downloaded once the carousel nears the viewport.
+const MorphStage = dynamic(() => import("@/components/MorphStage"), { ssr: false });
+import { ArrowButton, CaptionPanel, Counter, prefersReducedMotion } from "@/components/CarouselParts";
 import { fullSrc, thumbSrc, type LevelImage } from "@/lib/siteZero";
 import { pressable } from "@/lib/ui";
 
@@ -18,29 +24,29 @@ export type CarouselGroup = {
   stripLabels?: string[];
 };
 
-type ImageCarouselProps = {
+type MorphCarouselProps = {
   groups: CarouselGroup[];
   /** Accessible name for the whole carousel. */
   name: string;
+  transition?: MorphTransition;
 };
 
-const Arrow = ({ dir }: { dir: "prev" | "next" }) => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
-    <path d={dir === "prev" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
 /**
- * One large slide with its caption and design-intent note, round prev/next
- * arrows, swipe, arrow keys, a thumbnail strip and wrap-around. Clicking the
- * slide opens the shared lightbox. Optional tabs switch between groups.
+ * Blockout captures carousel built on React Bits "MorphSlider": a WebGL shear
+ * transition (glitchy security-feed cut) between slides, with tabs, caption
+ * and design-intent panel, round arrows, swipe, arrow keys, counter, thumbnail
+ * strip, wrap-around and click-to-enlarge. Falls back to a plain fade when
+ * WebGL is unavailable or the visitor prefers reduced motion.
  */
-export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
+export default function MorphCarousel({ groups, name, transition = "shear" }: MorphCarouselProps) {
   const uid = useId();
   const [gi, setGi] = useState(0);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [seen, setSeen] = useState(false);
+  const [dir, setDir] = useState(1);
+  const [gl, setGl] = useState<"off" | "loading" | "ready" | "failed">("off");
+  const [pointer, setPointer] = useState<[number, number] | undefined>(undefined);
   const root = useRef<HTMLDivElement | null>(null);
   const strip = useRef<HTMLUListElement | null>(null);
   const slideBtn = useRef<HTMLButtonElement | null>(null);
@@ -52,9 +58,26 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
   const many = images.length > 1;
 
   const go = useCallback(
-    (step: number) => setIndex((i) => (i + step + images.length) % images.length),
+    (step: number) => {
+      setDir(step < 0 ? -1 : 1);
+      setIndex((i) => (i + step + images.length) % images.length);
+    },
     [images.length],
   );
+  const goTo = useCallback(
+    (i: number) => {
+      setDir(i < index ? -1 : 1);
+      setIndex(i);
+    },
+    [index],
+  );
+
+  // WebGL only once the carousel is near the viewport, and never for reduced motion.
+  useEffect(() => {
+    if (seen && gl === "off" && !prefersReducedMotion()) setGl("loading");
+  }, [seen, gl]);
+  const urls = useMemo(() => images.map(fullSrc), [images]);
+  const webgl = gl === "loading" || gl === "ready";
 
   // Only start preloading neighbours once the carousel has been near the viewport.
   useEffect(() => {
@@ -93,14 +116,13 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
       go(-1);
     } else if (e.key === "Home") {
       e.preventDefault();
-      setIndex(0);
+      goTo(0);
     } else if (e.key === "End") {
       e.preventDefault();
-      setIndex(images.length - 1);
+      goTo(images.length - 1);
     }
   };
 
-  const arrowBtn = `flex h-11 w-11 items-center justify-center rounded-full border border-[#7fdbae]/60 bg-black/65 text-[#7fdbae] backdrop-blur-sm hover:border-[#7fdbae] hover:bg-[#7fdbae]/20 ${pressable}`;
   const panelId = `${uid}-panel`;
 
   return (
@@ -125,8 +147,11 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
               aria-controls={panelId}
               title={`Show ${g.label} (${g.images.length} images)`}
               onClick={() => {
+                if (i === gi) return;
                 setGi(i);
                 setIndex(0);
+                setDir(1);
+                if (gl === "ready") setGl("loading");
               }}
               onKeyDown={(e) => {
                 if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
@@ -135,6 +160,8 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
                   const n = (i + (e.key === "ArrowRight" ? 1 : -1) + groups.length) % groups.length;
                   setGi(n);
                   setIndex(0);
+                  setDir(1);
+                  if (gl === "ready") setGl("loading");
                   document.getElementById(`${uid}-tab-${groups[n].id}`)?.focus();
                 }
               }}
@@ -161,6 +188,10 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
           {/* Slide */}
           <div
             className="relative overflow-hidden rounded-sm border border-[var(--line)] bg-black touch-pan-y"
+            onPointerDown={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              setPointer([(e.clientX - r.left) / r.width, 1 - (e.clientY - r.top) / r.height]);
+            }}
             onTouchStart={(e) => {
               touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             }}
@@ -191,54 +222,36 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
                 loading="lazy"
                 decoding="async"
                 draggable={false}
-                className="absolute inset-0 h-full w-full object-contain animate-[carouselFade_280ms_ease-out] motion-reduce:animate-none"
+                className={`absolute inset-0 h-full w-full object-contain ${gl === "ready" ? "" : "animate-[carouselFade_280ms_ease-out] motion-reduce:animate-none"}`}
               />
+              {webgl && (
+                <span className={`absolute inset-0 transition-opacity duration-300 ${gl === "ready" ? "opacity-100" : "opacity-0"}`}>
+                  <MorphStage
+                    key={group.id}
+                    urls={urls}
+                    index={index}
+                    dir={dir}
+                    transition={transition}
+                    pointer={pointer}
+                    onReady={() => setGl("ready")}
+                    onFail={() => setGl("failed")}
+                  />
+                </span>
+              )}
               <span className="pointer-events-none absolute right-2 top-2 rounded-sm bg-black/65 px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-[#7fdbae] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                 ⤢ ENLARGE
               </span>
             </button>
             {many && (
               <>
-                <button
-                  type="button"
-                  title="Previous image (←)"
-                  aria-label="Previous image"
-                  onClick={() => go(-1)}
-                  className={`${arrowBtn} absolute left-2 top-1/2 -translate-y-1/2`}
-                >
-                  <Arrow dir="prev" />
-                </button>
-                <button
-                  type="button"
-                  title="Next image (→)"
-                  aria-label="Next image"
-                  onClick={() => go(1)}
-                  className={`${arrowBtn} absolute right-2 top-1/2 -translate-y-1/2`}
-                >
-                  <Arrow dir="next" />
-                </button>
+                <ArrowButton dir="prev" onClick={() => go(-1)} className="absolute left-2 top-1/2 -translate-y-1/2" />
+                <ArrowButton dir="next" onClick={() => go(1)} className="absolute right-2 top-1/2 -translate-y-1/2" />
               </>
             )}
-            <span className="pointer-events-none absolute bottom-2 left-2 rounded-sm bg-black/65 px-1.5 py-0.5 font-mono text-[10px] tracking-wider text-[#e8eaed]">
-              {String(index + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
-            </span>
+            <Counter index={index} total={images.length} className="absolute bottom-2 left-2" />
           </div>
 
-          {/* Caption */}
-          <div className="min-w-0 rounded-sm border border-[var(--line)] bg-[var(--surface-strong)]/70 p-3" aria-live="polite" aria-atomic="true">
-            <div className="font-mono text-[10px] tracking-wider text-[var(--text-dim)]">
-              {group.tab.toUpperCase()} · {index + 1} OF {images.length}
-            </div>
-            <div className="mt-1 font-mono text-[11px] tracking-wider text-[var(--phosphor)] uppercase">{img.title}</div>
-            <p className="mt-1.5 text-xs leading-relaxed text-[var(--text-muted)]">{img.caption}</p>
-            {img.intent && (
-              <p className="mt-2 border-l-2 border-[#d4a24c]/70 pl-2 text-xs leading-relaxed text-[var(--text-muted)]">
-                <span className="font-mono text-[9px] tracking-wider text-[#8a5d0f] dark:text-[#d4a24c]">DESIGN INTENT · </span>
-                {img.intent}
-              </p>
-            )}
-            {img.credit && <p className="mt-2 font-mono text-[9px] tracking-wider text-[var(--text-dim)]">{img.credit}</p>}
-          </div>
+          <CaptionPanel img={img} eyebrow={`${group.tab.toUpperCase()} · ${index + 1} OF ${images.length}`} />
         </div>
 
         {/* Thumbnail strip */}
@@ -255,7 +268,7 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
                   title={`Show: ${im.title}`}
                   aria-label={`Show image ${i + 1}: ${im.title}`}
                   aria-current={i === index ? "true" : undefined}
-                  onClick={() => setIndex(i)}
+                  onClick={() => goTo(i)}
                   className={`relative block h-12 w-[5.25rem] overflow-hidden rounded-sm border sm:h-14 sm:w-24 ${pressable} ${
                     i === index
                       ? "border-[var(--phosphor)] shadow-[0_0_0_1px_var(--phosphor)]"
@@ -292,7 +305,10 @@ export default function ImageCarousel({ groups, name }: ImageCarouselProps) {
             images={images}
             index={index}
             group={group.label}
-            onIndex={setIndex}
+            onIndex={(i) => {
+              setDir(i < index ? -1 : 1);
+              setIndex(i);
+            }}
             onClose={() => {
               setOpen(false);
               slideBtn.current?.focus();

@@ -1,4 +1,4 @@
-import ImageCarousel from "@/components/ImageCarousel";
+import IterationAccordion from "@/components/IterationAccordion";
 import { iterations } from "@/lib/iterations";
 
 export default function IterationLog() {
@@ -10,17 +10,12 @@ export default function IterationLog() {
   }));
   return (
     <>
-      <ImageCarousel
+      <IterationAccordion
         name="Blockout iteration log, oldest first"
-        groups={[
-          {
-            id: "iterations",
-            tab: "Iteration",
-            label: "Iteration log",
-            images,
-            stripLabels: iterations.map((it) => it.version),
-          },
-        ]}
+        group="Iteration log"
+        images={images}
+        labels={iterations.map((it) => it.version)}
+        titles={iterations.map((it) => it.title)}
       />
       <p className="mt-3 font-mono text-[10px] leading-relaxed tracking-wider text-[var(--text-muted)]">
         <span className="text-[#8a5d0f] dark:text-[#d4a24c]">NEXT · v11–v13 IN PROGRESS</span> · Later passes already exist
