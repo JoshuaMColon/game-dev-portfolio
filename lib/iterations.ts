@@ -58,7 +58,7 @@ export const iterations: Iteration[] = [
     version: "v10",
     date: "Nov 3",
     title: "Routes, exits and detail",
-    summary: "Flank routes F1–F3, six clearly sealed exits and a detail pass across both maps. The captures on this page are from this pass.",
+    summary: "Flank routes F1–F3, six clearly sealed exits and a detail pass across both maps.",
     image: img("iter-v10", "v10 · F2 flank corridor", "v10 capture: inside the F2 flank corridor, with the ammo cache.", "Warm-lit narrow corridor with a small lit supply crate"),
   },
 ];

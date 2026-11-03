@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AnnotatedPlan from "@/components/AnnotatedPlan";
 import CompareSlider from "@/components/CompareSlider";
+import ImageCarousel from "@/components/ImageCarousel";
 import IterationLog from "@/components/IterationLog";
 import LevelDesignCard from "@/components/LevelDesignCard";
 import LevelGallery from "@/components/LevelGallery";
@@ -136,7 +137,10 @@ export default function LevelDesignPage() {
           description="The references Site Zero is built from: the surface entrance, the Door 201 target look and the facility floor blueprints, gathered before the first greybox and used to plan composition, scale and room types."
         >
           <div className="px-5 pb-5">
-            <LevelGallery images={referenceImages} layout="refs" group="Reference library" />
+            <ImageCarousel
+              name="Reference images"
+              groups={[{ id: "refs", tab: "Reference", label: "Reference library", images: referenceImages }]}
+            />
           </div>
         </LevelDesignCard>
 
@@ -188,33 +192,27 @@ export default function LevelDesignPage() {
           </div>
         </LevelDesignCard>
 
-        {blockoutGroups.map((groupData) => (
-          <section
-            key={groupData.id}
-            aria-labelledby={`bo-${groupData.id}`}
-            className="rounded-sm border border-[var(--line)] bg-[var(--surface)]/60 p-5"
-          >
-            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-              <h3
-                id={`bo-${groupData.id}`}
-                className="font-mono text-[11px] tracking-[0.2em] text-[var(--phosphor)] uppercase"
-              >
-                {groupData.label}
-              </h3>
-              <span className="font-mono text-[10px] text-[var(--text-dim)]">
-                {groupData.images.length} SHOTS
-              </span>
-            </div>
-            <p className="text-sm text-[var(--text-muted)] leading-relaxed mb-4 max-w-3xl">
-              {groupData.summary}
-            </p>
-            <LevelGallery
-              images={groupData.images}
-              group={groupData.label}
-              twoUp={groupData.images.length % 3 !== 0 && groupData.images.length % 2 === 0}
-            />
-          </section>
-        ))}
+        <section
+          aria-labelledby="blockout-shots"
+          className="rounded-sm border border-[var(--line)] bg-[var(--surface)]/60 p-5"
+        >
+          <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+            <h3 id="blockout-shots" className="font-mono text-[11px] tracking-[0.2em] text-[var(--phosphor)]">
+              BLOCKOUT CAPTURES · v10
+            </h3>
+            <span className="font-mono text-[10px] text-[var(--text-dim)]">{shotCount} SHOTS</span>
+          </div>
+          <ImageCarousel
+            name="Blockout captures"
+            groups={blockoutGroups.map((g) => ({
+              id: g.id,
+              tab: g.label.split(" · ")[0].replace(" & encounter", ""),
+              label: g.label,
+              summary: g.summary,
+              images: g.images,
+            }))}
+          />
+        </section>
 
         <section
           aria-labelledby="iteration-log"
