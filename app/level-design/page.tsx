@@ -91,7 +91,7 @@ export default function LevelDesignPage() {
         <LevelDesignCard
           eyebrow="REFERENCE LIBRARY"
           title="Reference Images"
-          description="The references Site Zero is built from: the surface entrance, facility floor blueprints and a light-containment sector, gathered before the first greybox and used to plan composition, scale and room types."
+          description="The references Site Zero is built from: the surface entrance, the Door 201 target look and the facility floor blueprints, gathered before the first greybox and used to plan composition, scale and room types."
         >
           <div className="px-5 pb-5">
             <LevelGallery images={referenceImages} layout="refs" group="Reference library" />

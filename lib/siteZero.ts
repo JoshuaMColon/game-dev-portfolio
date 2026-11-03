@@ -27,20 +27,20 @@ export const referenceImages: LevelImage[] = [
     credit: "AI-generated concept reference",
   },
   {
-    file: "ref-exterior-blueprint-sheet",
-    title: "Exterior blueprint sheet",
-    caption:
-      "North and west elevations plus an isometric overview of the entrance, used to work out the facade, perimeter and approach before greyboxing.",
-    alt: "Blueprint-style sheet showing north and west elevations and an isometric overview of a fortified facility entrance",
-    width: 1024,
-    height: 559,
-  },
-  {
     file: "ref-door-201",
     title: "Door 201 target look",
     caption:
       "Target mood for the main entrance: a concrete bunker facade, the \"Proving Grounds – Site 0\" bulk door and a guard booth overlooking the forecourt.",
     alt: "Rendered concrete bunker entrance with a large metal door labeled Proving Grounds Site 0, Door 201, and a guard booth above",
+    width: 1024,
+    height: 559,
+  },
+  {
+    file: "ref-exterior-blueprint-sheet",
+    title: "Exterior blueprint sheet",
+    caption:
+      "North and west elevations plus an isometric overview of the entrance, used to work out the facade, perimeter and approach before greyboxing.",
+    alt: "Blueprint-style sheet showing north and west elevations and an isometric overview of a fortified facility entrance",
     width: 1024,
     height: 559,
   },
@@ -73,16 +73,6 @@ export const referenceImages: LevelImage[] = [
     width: 1536,
     height: 1024,
     credit: "AI-generated concept reference",
-  },
-  {
-    file: "ref-sector-l",
-    title: "Light containment · Sector L",
-    caption:
-      "Isometric layout of a light-containment sector: server room, office and lab, barracks, staff canteen, armoury and security around a central hub. Reference for Sector L's room density.",
-    alt: "Greyscale isometric map of a light containment sector with a server room, offices, barracks, a staff canteen and a security room",
-    width: 1600,
-    height: 900,
-    credit: "Reference art by @MHarmless18101",
   },
 ];
 

@@ -39,7 +39,8 @@ export default function ThemeToggle() {
         setTheme((current) => (current === "dark" ? "light" : "dark"))
       }
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      className="inline-flex items-center gap-2 rounded-full border border-line/80 bg-graphite-900/70 px-3 py-2 text-sm text-ink-muted transition-colors hover:border-phosphor/50 hover:text-ink-primary"
+      title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      className="inline-flex items-center gap-2 rounded-full border border-line/80 bg-graphite-900/70 px-3 py-2 text-sm text-ink-muted transition-[color,border-color,transform] duration-150 active:scale-95 hover:border-phosphor/50 hover:text-ink-primary"
     >
       <span aria-hidden="true">{theme === "dark" ? "☀" : "☾"}</span>
       <span className="hidden sm:inline">

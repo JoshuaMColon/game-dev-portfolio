@@ -13,17 +13,18 @@ const navItems = [
 export default function Nav() {
   return (
     <header className="border-b border-[var(--line)]/80 bg-[color:rgba(255,255,255,0.02)] backdrop-blur">
-      <div className="max-w-5xl mx-auto px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="max-w-5xl mx-auto px-6 py-4 sm:py-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <Link
           href="/"
-          className="font-display font-bold text-lg tracking-tight text-[var(--text-primary)] hover:text-[var(--phosphor)] transition-colors"
+          title="Home"
+          className="order-1 font-display font-bold text-lg tracking-tight text-[var(--text-primary)] hover:text-[var(--phosphor)] transition-colors"
         >
           Joshua Colon
         </Link>
-        <div className="flex items-center gap-4 min-w-0">
-          <div className="min-w-0">
-            <GooeyNav items={navItems} />
-          </div>
+        <div className="order-3 w-full min-w-0 lg:order-2 lg:ml-auto lg:w-auto">
+          <GooeyNav items={navItems} />
+        </div>
+        <div className="order-2 lg:order-3">
           <ThemeToggle />
         </div>
       </div>

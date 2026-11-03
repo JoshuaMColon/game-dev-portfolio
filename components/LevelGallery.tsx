@@ -33,8 +33,10 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
       <ul className={gridClass} role="list">
         {images.map((img, i) => {
           const featured = layout === "refs" && i === 0;
+          // Second ref spans two columns so six refs read as 1 / 2+1 / 3 with no orphan.
+          const wide = layout === "refs" && i === 1;
           return (
-            <li key={img.file} className={featured ? "col-span-full" : ""}>
+            <li key={img.file} className={`min-w-0 ${featured ? "col-span-full" : wide ? "col-span-2" : ""}`}>
               <button
                 type="button"
                 title={`Enlarge: ${img.title}`}
@@ -47,7 +49,11 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
               >
                 <span
                   className={`relative block w-full overflow-hidden ${
-                    layout === "single" ? "" : featured ? "aspect-[3/2] sm:aspect-[21/9]" : "aspect-video"
+                    layout === "single" ? "" : featured
+                        ? "aspect-[3/2] sm:aspect-[21/9]"
+                        : wide
+                          ? "aspect-video sm:aspect-[32/9]"
+                          : "aspect-video"
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized static WebP, no runtime optimization needed */}
