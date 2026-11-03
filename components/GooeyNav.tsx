@@ -196,7 +196,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
 
   return (
     <div
-      className="relative gooey-nav"
+      className="relative gooey-nav whitespace-nowrap text-[12px] min-[380px]:text-[13px] min-[420px]:text-sm sm:text-base"
       ref={containerRef}
       style={
         {
@@ -217,7 +217,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
       >
         <ul
           ref={navRef}
-          className="flex justify-end gap-3 sm:gap-8 list-none p-0 px-2 sm:px-4 m-0 relative z-[3] w-full"
+          className="flex justify-between sm:justify-center lg:justify-end gap-0.5 sm:gap-4 lg:gap-8 list-none p-0 lg:px-4 m-0 relative z-[3] w-full"
           style={{
             color: "var(--nav-text)",
             textShadow: "var(--text-shadow)",
@@ -234,7 +234,9 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
                 href={item.href}
                 onClick={(e) => handleClick(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="outline-none py-[0.6em] px-[0.65em] sm:px-[1em] inline-block text-sm sm:text-base"
+                title={`Go to ${item.label}`}
+                aria-current={activeIndex === index ? "page" : undefined}
+                className="outline-none py-[0.6em] px-[0.5em] min-[380px]:px-[0.55em] sm:px-[1em] inline-block whitespace-nowrap transition-transform duration-150 active:scale-95 focus-visible:ring-1 focus-visible:ring-[var(--phosphor)] rounded-full"
               >
                 {item.label}
               </Link>
