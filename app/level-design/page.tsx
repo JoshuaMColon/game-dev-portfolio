@@ -1,25 +1,36 @@
 import LevelDesignCard from "@/components/LevelDesignCard";
+import LevelGallery from "@/components/LevelGallery";
+import StatusTag from "@/components/StatusTag";
+import { blockoutGroups, floorPlan, referenceImages } from "@/lib/siteZero";
 
 export const metadata = {
   title: "Level Design — Joshua Colon",
+  description:
+    "Site Zero: an SCP-inspired facility level in Unreal Engine 5, from reference library to playable blockout.",
 };
 
-const referenceImages = [
-  {
-    label: "Flow study",
-    src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    label: "Material study",
-    src: "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    label: "Scale study",
-    src: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85",
-  },
+const route = [
+  "Forecourt",
+  "Door 201",
+  "Security checkpoint",
+  "Descent lift",
+  "Zone A",
+  "Armory",
+  "Zone B",
+  "Zone C",
+  "Zone D arena",
+  "Return lift",
+];
+
+const legend = [
+  { label: "Walls", swatch: "bg-[#7fdbae]" },
+  { label: "Cover & props", swatch: "bg-[#2e4040] border border-[#46625e]" },
+  { label: "Doors, lifts & stairs", swatch: "bg-[#d4a24c]" },
 ];
 
 export default function LevelDesignPage() {
+  const shotCount = blockoutGroups.reduce((n, g) => n + g.images.length, 0);
+
   return (
     <section className="max-w-5xl mx-auto px-6 py-16">
       <div className="font-mono text-xs tracking-widest text-[var(--phosphor)] mb-3">
@@ -33,59 +44,113 @@ export default function LevelDesignPage() {
         from early reference gathering through intentional player flow.
       </p>
 
-      <div className="grid lg:grid-cols-2 gap-4 items-stretch">
+      {/* Level header */}
+      <div className="mb-8 rounded-sm border border-[var(--line)] bg-[var(--surface)]/60 p-5">
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-[var(--text-dim)]">
+            CURRENT LEVEL
+          </span>
+          <StatusTag status="in-progress" />
+          <span
+            className="inline-block font-mono text-[10px] tracking-wider px-2 py-0.5 border rounded-sm text-[var(--phosphor)] border-[var(--phosphor)]/40"
+            title="Greybox geometry, placeholder lighting and grid materials"
+          >
+            BLOCKOUT · v10
+          </span>
+        </div>
+        <h2 className="font-display font-bold text-2xl text-[var(--text-primary)] mb-2">
+          Site Zero
+        </h2>
+        <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-3xl">
+          An SCP-inspired facility level built in Unreal Engine 5 across two
+          maps: a surface entrance dug into a hillside, and the Proving Grounds,
+          an underground facility the player fights through zone by zone. It is
+          in blockout: the layout, sightlines and pacing are being locked down
+          in greybox before any art pass.
+        </p>
+        <ol
+          className="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-2 font-mono text-[10px] tracking-wider text-[var(--text-muted)]"
+          aria-label="Critical path through the level"
+        >
+          {route.map((stop, i) => (
+            <li key={stop} className="flex items-center gap-1.5">
+              <span className="rounded-sm border border-[var(--line)] bg-[var(--surface-strong)] px-1.5 py-0.5 uppercase">
+                {stop}
+              </span>
+              {i < route.length - 1 && (
+                <span aria-hidden="true" className="text-[var(--phosphor)]">
+                  →
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="space-y-6">
         <LevelDesignCard
           eyebrow="REFERENCE LIBRARY"
           title="Reference Images"
-          description="Visual notes for composition, scale, lighting, and navigational rhythm before a blockout begins."
+          description="The references Site Zero is built from: the surface entrance, facility floor blueprints and a light-containment sector, gathered before the first greybox and used to plan composition, scale and room types."
         >
-          <div className="grid grid-cols-2 gap-2 px-5 pb-5">
-            {referenceImages.map((image, index) => (
-              <div
-                key={image.label}
-                className={`relative overflow-hidden rounded-sm border border-[var(--line)] bg-[var(--surface-strong)] ${
-                  index === 0 ? "col-span-2 aspect-[2.2/1]" : "aspect-[1.25/1]"
-                }`}
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${image.src})` }}
-                  role="img"
-                  aria-label={image.label}
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-black/60 px-2 py-1.5 font-mono text-[10px] text-white">
-                  {image.label}
-                </div>
-              </div>
-            ))}
+          <div className="px-5 pb-5">
+            <LevelGallery images={referenceImages} layout="refs" group="Reference library" />
           </div>
         </LevelDesignCard>
 
         <LevelDesignCard
-          eyebrow="DEVELOPED DESIGN"
-          title="Playable Blockout"
-          description="A developed encounter space shaped around readable entrances, a strong focal point, and a deliberate loop through the room."
+          eyebrow="DEVELOPED DESIGN · WORK IN PROGRESS"
+          title="Blockout"
+          description="Site Zero is currently in blockout. Everything below is greybox: engine grid materials, simple meshes and placeholder lighting, built to test the route, cover and readability before art."
         >
-          <div className="mx-5 mb-5 aspect-[4/3] rounded-sm border border-[var(--line)] bg-[#10151a] p-3">
-            <div className="h-full border border-dashed border-[#4e7c72] p-3 relative">
-              <div className="absolute left-3 top-3 right-1/3 h-1/4 border border-[#7fdbae]/70 bg-[#22473e]/70" />
-              <div className="absolute right-3 top-1/4 w-1/4 h-1/2 border border-[#d4a24c]/70 bg-[#4b3920]/80" />
-              <div className="absolute left-1/4 bottom-3 w-1/3 h-1/4 border border-[#7eb8d6]/70 bg-[#234052]/80" />
-              <div className="absolute left-1/3 top-1/2 w-1/4 h-1/5 border border-[#e8eaed]/60 bg-[#66717c]/50" />
-              <div className="absolute inset-x-0 top-1/2 border-t border-dashed border-[#7fdbae]/50" />
-              <div className="absolute left-1/2 inset-y-0 border-l border-dashed border-[#7fdbae]/50" />
-              <div className="absolute left-2 bottom-2 font-mono text-[9px] tracking-wider text-[#7fdbae]">
-                ENTRY
-              </div>
-              <div className="absolute right-2 top-2 font-mono text-[9px] tracking-wider text-[#d4a24c]">
-                FOCAL POINT
-              </div>
-              <div className="absolute right-2 bottom-2 font-mono text-[9px] tracking-wider text-[#7eb8d6]">
-                LOOP RETURN
-              </div>
+          <div className="px-5 pb-5">
+            <div className="mb-4 flex flex-wrap items-center gap-3 rounded-sm border border-dashed border-[#d4a24c]/60 bg-[#d4a24c]/10 px-3 py-2 font-mono text-[10px] tracking-wider text-[#8a5d0f] dark:text-[#d4a24c]">
+              <span className="inline-block h-2 w-2 rounded-full bg-[#d4a24c] animate-pulse-dot" aria-hidden="true" />
+              <span>STATUS: BLOCKOUT IN PROGRESS · LAYOUT AND LIGHTING SUBJECT TO CHANGE</span>
             </div>
+            <LevelGallery images={[floorPlan]} layout="single" group="Blockout plan" />
+            <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 font-mono text-[10px] tracking-wider text-[var(--text-muted)]" aria-label="Plan legend">
+              {legend.map((item) => (
+                <li key={item.label} className="flex items-center gap-1.5">
+                  <span className={`inline-block h-2.5 w-2.5 rounded-[2px] ${item.swatch}`} aria-hidden="true" />
+                  {item.label.toUpperCase()}
+                </li>
+              ))}
+            </ul>
           </div>
         </LevelDesignCard>
+
+        {blockoutGroups.map((groupData) => (
+          <section
+            key={groupData.id}
+            aria-labelledby={`bo-${groupData.id}`}
+            className="rounded-sm border border-[var(--line)] bg-[var(--surface)]/60 p-5"
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
+              <h3
+                id={`bo-${groupData.id}`}
+                className="font-mono text-[11px] tracking-[0.2em] text-[var(--phosphor)] uppercase"
+              >
+                {groupData.label}
+              </h3>
+              <span className="font-mono text-[10px] text-[var(--text-dim)]">
+                {groupData.images.length} SHOTS
+              </span>
+            </div>
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed mb-4 max-w-3xl">
+              {groupData.summary}
+            </p>
+            <LevelGallery
+              images={groupData.images}
+              group={groupData.label}
+              twoUp={groupData.images.length % 3 !== 0 && groupData.images.length % 2 === 0}
+            />
+          </section>
+        ))}
+
+        <p className="font-mono text-[10px] tracking-wider text-[var(--text-dim)]">
+          {shotCount} BLOCKOUT CAPTURES · v10 PASS · CLICK ANY IMAGE TO ENLARGE
+        </p>
       </div>
     </section>
   );
