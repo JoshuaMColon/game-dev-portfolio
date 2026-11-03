@@ -101,6 +101,24 @@ export default function ProjectDetail({
         <p>{project.description}</p>
       </div>
 
+      {project.levelDesign && (
+        <Link
+          href={project.levelDesign.href}
+          title={`Open ${project.levelDesign.label}`}
+          className="group mb-8 flex items-center justify-between gap-4 rounded-sm border border-[var(--line)] bg-[var(--surface)] px-4 py-3 hover:border-[var(--phosphor)] hover:shadow-[0_0_0_1px_var(--phosphor)] transition-[transform,border-color,box-shadow] duration-150 ease-out active:scale-[0.98] active:brightness-110"
+        >
+          <span>
+            <span className="block font-mono text-[11px] tracking-wider text-[var(--phosphor)] uppercase">
+              {project.levelDesign.label}
+            </span>
+            <span className="mt-1 block text-sm text-[var(--text-muted)]">{project.levelDesign.blurb}</span>
+          </span>
+          <span aria-hidden="true" className="font-mono text-[var(--phosphor)] transition-transform group-hover:translate-x-1">
+            →
+          </span>
+        </Link>
+      )}
+
       {project.whatIdImprove && (
         <div className="border-l-2 border-amber/50 pl-4 mb-8">
           <div className="font-mono text-[11px] text-amber tracking-wider mb-1">
