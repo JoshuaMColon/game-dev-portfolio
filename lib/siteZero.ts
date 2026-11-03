@@ -9,6 +9,8 @@ export type LevelImage = {
   width: number;
   height: number;
   credit?: string;
+  /** One or two lines on what the space is designed to do for the player. */
+  intent?: string;
 };
 
 const BASE = "/level-design/site-zero";
@@ -77,13 +79,13 @@ export const referenceImages: LevelImage[] = [
 ];
 
 export const floorPlan: LevelImage = {
-  file: "plan-proving-grounds",
+  file: "plan-annotated-base",
   title: "Proving Grounds · top-down plan",
   caption:
-    "Plan view generated from the v10 blockout geometry. Walls in green, props and cover in grey, doors, lifts and stairs in amber. The route runs west to east.",
+    "Plan view rendered from a probe of the blockout geometry. Walls in green, props and cover in grey, doors, lifts and stairs in amber. The route runs west to east.",
   alt: "Top-down blockout plan of the Proving Grounds map showing Zone A, the Armory, Zone B, Zone C, Sector L to the north and the octagonal Zone D arena",
-  width: 1600,
-  height: 411,
+  width: 2403,
+  height: 606,
 };
 
 export type BlockoutGroup = {
@@ -98,7 +100,8 @@ const shot = (
   title: string,
   caption: string,
   alt: string,
-): LevelImage => ({ file, title, caption, alt, width: 1600, height: 900 });
+  intent?: string,
+): LevelImage => ({ file, title, caption, alt, width: 1600, height: 900, intent });
 
 export const blockoutGroups: BlockoutGroup[] = [
   {
@@ -128,24 +131,28 @@ export const blockoutGroups: BlockoutGroup[] = [
         "Forecourt",
         "Open forecourt with scattered cover, lamp posts and the perimeter beyond.",
         "Greybox exterior forecourt with low cover blocks, lamp posts and a perimeter wall under a blue sky",
+        "Open the level in the widest space on the route, so every space after it reads as progressively tighter and more dangerous.",
       ),
       shot(
         "bo-e2-ext-serviceyard",
         "Service yard",
         "The fenced service yard on the south side, where the return freight lift from Zone D comes up.",
         "Greybox service yard with tall walls, a pillar and a raised ledge",
+        "Close the loop without backtracking: the freight lift out of the facility surfaces in the south service yard, not where the player went in.",
       ),
       shot(
         "bo-e3-ext-vestibule",
         "Vestibule",
         "A narrow, warm-lit vestibule that tightens the space before the checkpoint.",
         "Narrow greybox corridor with warm lighting leading toward a red-lit doorway",
+        "Compress the player after the open forecourt: a narrow, warm-lit passage with the red checkpoint light at the far end pulling them forward.",
       ),
       shot(
         "bo-e4-ext-passage-hallfront",
         "Security checkpoint",
         "Red-lit security checkpoint between Door 201 and the Zone A lift.",
         "Red-lit greybox security checkpoint with a turnstile barrier and a sign reading Security Checkpoint",
+        "The checkpoint gate communicates state through colour alone: red while it is shut, amber while the scanner runs, green when the Zone A lift opens.",
       ),
     ],
   },
@@ -160,24 +167,28 @@ export const blockoutGroups: BlockoutGroup[] = [
         "Zone A · Lobby",
         "Lobby and check-in hall at the bottom of the freight elevator.",
         "Greybox lobby with check-in counters, partition walls and a red accent ceiling",
+        "A calm arrival. Zone A has no enemy positions, so the player can read the space, explore the side rooms and collect gear in the Armory first.",
       ),
       shot(
         "bo-a2-zonea-archive",
         "Zone A · Records archive",
         "Records archive with rows of shelving off the lobby.",
         "Greybox archive room with rows of tall shelving blocks under a ceiling light",
+        "The archive is where the F1 shortcut lands: a one-way door from the emergency shaft brings a player who scouts out of Zone B back into Zone A.",
       ),
       shot(
         "bo-b1-zoneb-hall",
         "Zone B · Cover hall",
         "Combat space built from varied-height cover, with lit doorways marking the ways out.",
         "Greybox hall filled with cover blocks of different heights, lit by green door lights and ceiling strips",
+        "Keep the fight readable. Dressing is held to the perimeter, so the varied-height cover in the middle of the hall is what shapes the encounter.",
       ),
       shot(
         "bo-c1-zonec-atrium",
         "Zone C · Atrium",
         "Atrium stairs up to the mezzanine in the research wing.",
         "Greybox atrium with a staircase rising to an upper level and a green-lit doorway",
+        "Add height to the fight: two of Zone C's seven enemy positions sit on the mezzanine, so the stairs and catwalks become part of the encounter.",
       ),
       shot(
         "bo-c2-zonec-medicalbay",
@@ -190,6 +201,7 @@ export const blockoutGroups: BlockoutGroup[] = [
         "Sector L · Spine corridor",
         "The Sector L spine corridor, with numbered rooms off both sides.",
         "Long greybox corridor with numbered doors on both sides and yellow-striped door frames",
+        "An optional wing for players who explore. Its west exit is visibly sealed, so the detour loops back to the main route instead of leaking out of it.",
       ),
       shot(
         "bo-l2-sectorl-security",
@@ -202,6 +214,7 @@ export const blockoutGroups: BlockoutGroup[] = [
         "Main corridor",
         "Main corridor with hazard-striped door frames and stairs at the far end.",
         "Purple-lit greybox corridor with hazard-striped door frames leading to a stairwell",
+        "A release after the boss: one straight, uncluttered corridor with a clear line from the arena shutter to the exit checkpoint.",
       ),
       shot(
         "bo-m2-checkpoint",
@@ -222,6 +235,7 @@ export const blockoutGroups: BlockoutGroup[] = [
         "Flank route · closed",
         "Maintenance door in the Zone B north wall, the start of the F2 flanking route.",
         "Green-lit greybox maintenance door, closed, with a push bar and yellow kick plate",
+        "Offer a choice of approach. This door in the Zone B north wall opens a flank that comes out beside the east enemy positions.",
       ),
       shot(
         "bo-x2-f2-flankwest-open",
@@ -234,12 +248,14 @@ export const blockoutGroups: BlockoutGroup[] = [
         "Flank corridor",
         "Inside the flanking corridor, with a supply cache along the wall.",
         "Warm-lit narrow greybox corridor with a small lit supply crate and a green door at the far end",
+        "Reward the detour: an ammo cache sits halfway along the flank corridor.",
       ),
       shot(
         "bo-d2-zoned-arena-inside",
         "Zone D · Boss arena",
         "Octagonal boss arena built around a central containment pit and dais.",
         "Dark blue-lit octagonal arena with a raised circular dais and a glowing object at its center",
+        "A committed fight. The boss door seals behind the player on entry and the exit shutter only opens on defeat, and the lane across the arena is kept clear of dressing.",
       ),
     ],
   },

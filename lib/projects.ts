@@ -16,6 +16,8 @@ export type Project = {
   videoUrl?: string; // YouTube embed URL, add once you have a capture
   githubUrl?: string;
   itchUrl?: string;
+  /** Internal link to this game's level-design page. */
+  levelDesign?: { href: string; label: string; blurb: string };
   featured?: boolean;
 };
 
@@ -34,6 +36,11 @@ export const projects: Project[] = [
     description:
       "A third-person vertical slice built around a single enemy encounter. The enemy uses a Behavior Tree driven patrol/detect/chase/attack loop, paired with a custom Niagara system as both a visual signature and an environmental hazard. Version-controlled with Git + Git LFS through the UE5 Git Beta plugin.",
     githubUrl: "https://github.com/JoshuaMColon",
+    levelDesign: {
+      href: "/level-design",
+      label: "Level design: Site Zero",
+      blurb: "The game's level, from reference library to greybox blockout: route walkthrough, annotated plan and iteration log.",
+    },
     featured: true,
   },
   {

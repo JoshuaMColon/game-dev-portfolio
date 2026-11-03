@@ -1,0 +1,65 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.400
+01/16 Surface — Door 201 forecourt
+
+2
+00:00:02.400 --> 00:00:04.800
+02/16 Surface — Door 201 vestibule
+
+3
+00:00:04.800 --> 00:00:07.200
+03/16 Surface — Security checkpoint
+
+4
+00:00:07.200 --> 00:00:09.600
+04/16 Zone A — Lift arrival · lobby
+
+5
+00:00:09.600 --> 00:00:12.000
+05/16 Zone A — Records archive
+
+6
+00:00:12.000 --> 00:00:14.400
+06/16 Zone B — Cover hall
+
+7
+00:00:14.400 --> 00:00:16.800
+07/16 Zone B — F2 flank door · closed
+
+8
+00:00:16.800 --> 00:00:19.200
+08/16 Zone B — F2 flank door · open
+
+9
+00:00:19.200 --> 00:00:21.600
+09/16 Optional route — F2 north flank corridor
+
+10
+00:00:21.600 --> 00:00:24.000
+10/16 Zone C — Atrium
+
+11
+00:00:24.000 --> 00:00:26.400
+11/16 Zone C — Medical bay
+
+12
+00:00:26.400 --> 00:00:28.800
+12/16 Sector L · optional — Light Containment spine
+
+13
+00:00:28.800 --> 00:00:31.200
+13/16 Zone D — Arena · containment cell
+
+14
+00:00:31.200 --> 00:00:33.600
+14/16 Exit route — Main corridor
+
+15
+00:00:33.600 --> 00:00:36.000
+15/16 Exit route — Exit checkpoint
+
+16
+00:00:36.000 --> 00:00:39.000
+16/16 Surface — Service yard · return lift

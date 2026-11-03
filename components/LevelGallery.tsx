@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { fullSrc, thumbSrc, type LevelImage } from "@/lib/siteZero";
+import { pressable } from "@/lib/ui";
 
 type LevelGalleryProps = {
   images: LevelImage[];
@@ -13,9 +14,6 @@ type LevelGalleryProps = {
   /** Group name read out in the lightbox, e.g. "Reference library". */
   group: string;
 };
-
-const pressable =
-  "transition-[transform,border-color,box-shadow] duration-150 ease-out active:scale-[0.97] active:brightness-110";
 
 export default function LevelGallery({ images, layout = "shots", group, twoUp = false }: LevelGalleryProps) {
   const [open, setOpen] = useState<number | null>(null);
@@ -79,6 +77,12 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
                   {(layout !== "refs" || featured) && (
                     <span className="mt-1 block text-xs leading-snug text-[var(--text-muted)]">{img.caption}</span>
                   )}
+                  {img.intent && (
+                    <span className="mt-1.5 block border-l-2 border-[#d4a24c]/70 pl-2 text-xs leading-snug text-[var(--text-muted)]">
+                      <span className="font-mono text-[9px] tracking-wider text-[#8a5d0f] dark:text-[#d4a24c]">DESIGN INTENT · </span>
+                      {img.intent}
+                    </span>
+                  )}
                   {layout === "refs" && img.credit && (
                     <span className="mt-1 block font-mono text-[9px] tracking-wider text-[var(--text-dim)]">{img.credit}</span>
                   )}
@@ -116,7 +120,7 @@ type LightboxProps = {
   onClose: () => void;
 };
 
-function Lightbox({ images, index, group, onIndex, onClose }: LightboxProps) {
+export function Lightbox({ images, index, group, onIndex, onClose }: LightboxProps) {
   const img = images[index];
   const many = images.length > 1;
   const closeRef = useRef<HTMLButtonElement | null>(null);
@@ -244,6 +248,12 @@ function Lightbox({ images, index, group, onIndex, onClose }: LightboxProps) {
       <div className="mx-auto w-full max-w-3xl px-4 pb-5 pt-3 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="font-display text-base font-bold text-[#e8eaed]">{img.title}</div>
         <p className="mt-1 text-sm leading-relaxed text-[#8b92a0]">{img.caption}</p>
+        {img.intent && (
+          <p className="mt-1.5 text-sm leading-relaxed text-[#b9bec8]">
+            <span className="font-mono text-[10px] tracking-wider text-[#d4a24c]">DESIGN INTENT · </span>
+            {img.intent}
+          </p>
+        )}
         {img.credit && <p className="mt-1 font-mono text-[10px] tracking-wider text-[#5c6472]">{img.credit}</p>}
         {many && (
           <div className="mt-3 flex items-center justify-center gap-3 sm:hidden">

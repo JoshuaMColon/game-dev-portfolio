@@ -150,8 +150,16 @@ const Threads: React.FC<ThreadsProps> = ({
     if (!containerRef.current) return;
     const container = containerRef.current;
 
-    const renderer = new Renderer({ alpha: true });
+    // No WebGL (disabled, blocklisted GPU): skip the decorative background
+    // instead of crashing the whole page. ogl throws when it gets no context.
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({ alpha: true });
+    } catch {
+      return;
+    }
     const gl = renderer.gl;
+    if (!gl) return;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);

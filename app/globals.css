@@ -240,3 +240,8 @@ textarea:focus-visible {
     transparent
   );
 }
+
+@keyframes carouselFade {
+  from { opacity: 0.25; }
+  to { opacity: 1; }
+}
