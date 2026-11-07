@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+// Theme is a class on <html>, not React context. I apply it after mount:
+// the server render has no class (light tokens win in globals.css), and
+// the button stays labeled "Theme" until localStorage is safe to read.
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [mounted, setMounted] = useState(false);
@@ -11,6 +14,7 @@ export default function ThemeToggle() {
     const systemPrefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
+    // A stored choice wins. With none, I follow the OS preference.
     const initialTheme =
       storedTheme === "light" || storedTheme === "dark"
         ? storedTheme

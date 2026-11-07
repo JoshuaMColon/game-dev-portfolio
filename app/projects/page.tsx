@@ -5,6 +5,8 @@ export const metadata = {
   title: "Projects — Joshua Colon",
 };
 
+// Same array as the homepage. Each card links to /projects/[slug],
+// and those routes are prebuilt from this list.
 export default function ProjectsPage() {
   return (
     <section className="max-w-5xl mx-auto px-6 py-16">
