@@ -33,7 +33,7 @@ type MorphCarouselProps = {
 };
 
 /**
- * Blockout captures, one tab per map. The slide is a plain img; the WebGL
+ * Blockout captures, one tab per group. The slide is a plain img; the WebGL
  * shear covers it only once MorphStage is ready. I fall back to a fade when
  * WebGL is missing or the visitor prefers reduced motion. Click opens the
  * shared lightbox on this same index.

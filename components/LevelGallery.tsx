@@ -15,10 +15,11 @@ type LevelGalleryProps = {
   group: string;
 };
 
-// Grid plus lightbox for references and plan pairs. The lightbox is a
-// portal on document.body: the cards live inside PixelCard (overflow
-// hidden) and BorderGlow (a transform), and either one would trap a
-// position:fixed overlay.
+// Grid plus lightbox. The Zone A pair uses the shots grid (twoUp).
+// I portal the overlay to document.body: BorderGlow puts a transform
+// on the card, which would pin a position:fixed layer to the card,
+// and PixelCard's overflow:hidden would clip it. The other viewers
+// import this Lightbox and portal it the same way.
 export default function LevelGallery({ images, layout = "shots", group, twoUp = false }: LevelGalleryProps) {
   const [open, setOpen] = useState<number | null>(null);
   const lastTrigger = useRef<HTMLButtonElement | null>(null);
@@ -35,8 +36,9 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
       <ul className={gridClass} role="list">
         {images.map((img, i) => {
           const featured = layout === "refs" && i === 0;
-          // Six references. The first is full width, the second spans two
-          // columns, and the rest are singles, so the last row isn't one orphan.
+          // refs layout, if I use it: first image full width, second spans
+          // two columns, the rest are singles, so a set of six doesn't
+          // leave a single orphan on the last row.
           const wide = layout === "refs" && i === 1;
           return (
             <li key={img.file} className={`min-w-0 ${featured ? "col-span-full" : wide ? "col-span-2" : ""}`}>

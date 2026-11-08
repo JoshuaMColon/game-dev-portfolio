@@ -18,7 +18,8 @@ const img = (file: string, title: string, caption: string, alt: string): LevelIm
 });
 
 // One still per greybox pass. The date is the capture timestamp
-// (America/New_York), not the day I started the pass. v6 has no still.
+// (America/New_York), not the day I started the pass. The log jumps
+// from v5 to v7; there is no v6 still in the set.
 export const iterations: Iteration[] = [
   {
     version: "v4",

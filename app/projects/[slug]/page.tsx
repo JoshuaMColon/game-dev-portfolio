@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // One static page per entry in lib/projects. A new project gets a route
-// at build time; I don't look slugs up on the server per request.
+// at build time. Anything else hits the lookup below and 404s.
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }

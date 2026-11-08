@@ -216,8 +216,8 @@ export default function LevelDesignPage() {
             transition="shear"
             groups={blockoutGroups.map((g) => ({
               id: g.id,
-              // Tabs want a short name. The full map name stays on the group
-              // for the lightbox, so I cut the label at the first " · ".
+              // Tabs want a short name. I cut at the first " · " and drop
+              // " & encounter". The full map name stays on the group for the lightbox.
               tab: g.label.split(" · ")[0].replace(" & encounter", ""),
               label: g.label,
               summary: g.summary,
