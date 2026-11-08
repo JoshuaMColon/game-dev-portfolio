@@ -2,6 +2,10 @@ import IterationAccordion from "@/components/IterationAccordion";
 import { iterations } from "@/lib/iterations";
 
 export default function IterationLog() {
+  // The accordion speaks in passes, not filenames. Title carries version
+  // and date, caption carries the pass summary, and the credit line keeps
+  // the original shot note. The latest pass points at the captures above,
+  // because that version is what the rest of the page is showing.
   const images = iterations.map((it, i) => ({
     ...it.image,
     title: `${it.version} · ${it.date} · ${it.title}`,

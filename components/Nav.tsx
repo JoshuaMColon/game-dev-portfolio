@@ -10,6 +10,8 @@ const navItems = [
   { label: "Contact", href: "/contact" },
 ];
 
+// Site chrome. The order classes keep the theme toggle beside the name
+// on small screens (links wrap to their own row) and slide it to the end at lg.
 export default function Nav() {
   return (
     <header className="border-b border-[var(--line)]/80 bg-[color:rgba(255,255,255,0.02)] backdrop-blur">

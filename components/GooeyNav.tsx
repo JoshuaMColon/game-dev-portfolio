@@ -20,6 +20,9 @@ export interface GooeyNavProps {
   initialActiveIndex?: number;
 }
 
+// The links are real Next <Link>s. The pill and particle burst are a
+// separate overlay, pointer-events none, so the filter can blur without
+// eating clicks or hurting the label contrast (that chip is CSS on li.active).
 const GooeyNav: React.FC<GooeyNavProps> = ({
   items,
   animationTime = 600,
@@ -154,6 +157,8 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
     }
   };
 
+  // The click moves the pill immediately, but the route is the source of
+  // truth. Exact href match, so /projects/[slug] does not light up Projects.
   useEffect(() => {
     const matchedIndex = items.findIndex((item) => item.href === pathname);
     if (matchedIndex >= 0 && matchedIndex !== activeIndex) {
@@ -161,6 +166,8 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
     }
   }, [pathname, items, activeIndex]);
 
+  // ThemeToggle writes .dark on <html> outside this tree. I watch the
+  // class so the overlay colors flip with the theme without a shared store.
   useEffect(() => {
     setIsDarkTheme(document.documentElement.classList.contains("dark"));
     const observer = new MutationObserver(() => {

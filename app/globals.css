@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark tokens live on :root. With no class on <html>, the light block
+   below wins; ThemeToggle adds .dark after mount and these tokens return. */
 :root {
   color-scheme: dark;
   --bg-start: #0f1216;
@@ -197,7 +199,8 @@ textarea:focus-visible {
     opacity: 0;
   }
 }
-/* Selected nav pill: opaque tinted bubble so the label stays readable (WCAG AA+) */
+/* Selected pill is an opaque tint, not the goo blur. The blur looks good
+   and fails contrast, so the label sits on a solid mint or phosphor chip. */
 .gooey-nav {
   --pill-bg: #d4f2e3; /* light mint */
   --pill-text: #0b3a2a; /* deep green, ~11:1 on the pill */

@@ -1,13 +1,10 @@
 "use client";
 
 /**
- * Iteration log built on React Bits "AccordionGallery" (gsap,
- * https://reactbits.dev): one panel per pass, the active pass expands in
- * colour while the others stay as greyscale strips. Adapted for this site:
- * hover to expand with a mouse, tap to expand on touch, tap/click the open
- * panel for the full-screen lightbox, horizontal on desktop and a vertical
- * stack on phones, arrow keys, titled arrow buttons, counter, caption panel,
- * and an instant layout with a simple fade under reduced motion.
+ * One panel per greybox pass. The open pass is in colour; the others stay
+ * greyscale strips. Hover expands on a fine pointer, tap expands on touch,
+ * and a second press on the open panel is the lightbox. Phones stack the
+ * panels vertically. Reduced motion skips the travel and fades.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -39,8 +36,8 @@ export default function IterationAccordion({ images, labels, titles, name, group
   const titleRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const tl = useRef<gsap.core.Timeline | null>(null);
   const first = useRef(true);
-  // Whether the panel was already open when the press began. A tap focuses the
-  // panel (which expands it) before click fires, so click must not use `active`.
+  // Whether the panel was already open when the press began. A tap focuses
+  // the panel (which expands it) before click fires, so click must not use `active`.
   const pressedOpen = useRef<boolean | null>(null);
   const [active, setActive] = useState(n - 1);
   const [vertical, setVertical] = useState(false);
@@ -50,6 +47,8 @@ export default function IterationAccordion({ images, labels, titles, name, group
 
   useEffect(() => {
     const mqV = window.matchMedia("(max-width: 639px)");
+    // Hover-to-expand only on a fine pointer. A touch "hover" would
+    // open a panel the moment a finger lands, before the tap is a choice.
     const mqH = window.matchMedia("(hover: hover) and (pointer: fine)");
     const sync = () => {
       setVertical(mqV.matches);
@@ -183,6 +182,8 @@ export default function IterationAccordion({ images, labels, titles, name, group
                   className="absolute left-1/2 top-1/2 [filter:grayscale(var(--ag-gray,1))_brightness(calc(1-var(--ag-dim,0.45)))]"
                   style={{ ...mediaStyle, willChange: "transform, filter", transform: "translate(-50%, -50%)" }}
                 >
+                  {/* Collapsed phone rows are 44px, so they take the thumb.
+                      The open panel and the desktop strip take the full frame. */}
                   {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized static WebP */}
                   <img
                     src={on || !vertical ? fullSrc(im) : thumbSrc(im)}

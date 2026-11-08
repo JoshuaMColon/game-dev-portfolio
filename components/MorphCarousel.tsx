@@ -6,7 +6,8 @@ import { Lightbox } from "@/components/LevelGallery";
 import dynamic from "next/dynamic";
 import type { MorphTransition } from "@/components/MorphStage";
 
-// The WebGL layer (ogl) is only downloaded once the carousel nears the viewport.
+// ogl stays out of the first load. MorphStage is imported only after
+// the carousel nears the viewport, and never when reduced motion is on.
 const MorphStage = dynamic(() => import("@/components/MorphStage"), { ssr: false });
 import { ArrowButton, CaptionPanel, Counter, prefersReducedMotion } from "@/components/CarouselParts";
 import { fullSrc, thumbSrc, type LevelImage } from "@/lib/siteZero";
@@ -32,11 +33,10 @@ type MorphCarouselProps = {
 };
 
 /**
- * Blockout captures carousel built on React Bits "MorphSlider": a WebGL shear
- * transition (glitchy security-feed cut) between slides, with tabs, caption
- * and design-intent panel, round arrows, swipe, arrow keys, counter, thumbnail
- * strip, wrap-around and click-to-enlarge. Falls back to a plain fade when
- * WebGL is unavailable or the visitor prefers reduced motion.
+ * Blockout captures, one tab per group. The slide is a plain img; the WebGL
+ * shear covers it only once MorphStage is ready. I fall back to a fade when
+ * WebGL is missing or the visitor prefers reduced motion. Click opens the
+ * shared lightbox on this same index.
  */
 export default function MorphCarousel({ groups, name, transition = "shear" }: MorphCarouselProps) {
   const uid = useId();
@@ -83,6 +83,8 @@ export default function MorphCarousel({ groups, name, transition = "shear" }: Mo
   useEffect(() => {
     const el = root.current;
     if (!el || seen) return;
+    // 300px of lead so the chunk and the neighbour frames are ready
+    // before the carousel actually scrolls into view.
     const io = new IntersectionObserver(([e]) => e.isIntersecting && setSeen(true), { rootMargin: "300px" });
     io.observe(el);
     return () => io.disconnect();
@@ -151,6 +153,8 @@ export default function MorphCarousel({ groups, name, transition = "shear" }: Mo
                 setGi(i);
                 setIndex(0);
                 setDir(1);
+                // New group, new textures. Drop back to loading so the
+                // previous map's canvas doesn't shear over the new one.
                 if (gl === "ready") setGl("loading");
               }}
               onKeyDown={(e) => {
@@ -212,6 +216,8 @@ export default function MorphCarousel({ groups, name, transition = "shear" }: Mo
               onClick={() => setOpen(true)}
               className="group relative block aspect-video w-full cursor-zoom-in"
             >
+              {/* The img is the real slide and the fallback. The canvas only
+                  covers it once the stage is ready; until then the fade plays here. */}
               {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized static WebP */}
               <img
                 key={img.file}
@@ -254,7 +260,8 @@ export default function MorphCarousel({ groups, name, transition = "shear" }: Mo
           <CaptionPanel img={img} eyebrow={`${group.tab.toUpperCase()} · ${index + 1} OF ${images.length}`} />
         </div>
 
-        {/* Thumbnail strip */}
+        {/* Thumbnail strip uses the small WebP. This row is always in the layout,
+            so I don't pull a full frame for every capture up front. */}
         {many && (
           <ul
             ref={strip}
@@ -301,6 +308,8 @@ export default function MorphCarousel({ groups, name, transition = "shear" }: Mo
       {open &&
         typeof document !== "undefined" &&
         createPortal(
+          // Same lightbox as the grids, on this index, so arrowing inside
+          // it moves the carousel underneath and close returns here.
           <Lightbox
             images={images}
             index={index}

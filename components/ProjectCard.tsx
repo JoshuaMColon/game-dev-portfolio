@@ -4,6 +4,8 @@ import BorderGlow from "./BorderGlow";
 import PixelCard from "./PixelCard";
 import StatusTag from "./StatusTag";
 
+// Three system chips on the card. The rest stay on the detail page so
+// the index doesn't turn into a tag wall.
 export default function ProjectCard({ project }: { project: Project }) {
   return (
     <PixelCard variant="pink" className="w-full h-full">

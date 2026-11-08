@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
+// Self-hosted through next/font and exposed as CSS variables, so Tailwind
+// can switch display, body, and mono without a flash of fallback type.
 const display = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
@@ -38,6 +40,8 @@ export default function RootLayout({
       <body
         className={`${display.variable} ${body.variable} ${mono.variable} bg-[var(--bg-start)] text-[var(--text-primary)] font-body antialiased transition-colors duration-300 relative`}
       >
+        {/* Effects are fixed and pointer-events-none. The column sits above
+            them so nav, page, and footer share one scroll and stay clickable. */}
         <BackgroundEffects />
         <div className="min-h-screen flex flex-col relative z-10">
           <Nav />

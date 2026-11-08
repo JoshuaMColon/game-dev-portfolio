@@ -3,6 +3,8 @@ import { projects } from "@/lib/projects";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+// One static page per entry in lib/projects. A new project gets a route
+// at build time. Anything else hits the lookup below and 404s.
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -20,6 +22,7 @@ export default function ProjectDetail({
   params: { slug: string };
 }) {
   const project = projects.find((p) => p.slug === params.slug);
+  // Unknown slug 404s. A half-empty detail page would look like a broken project.
   if (!project) return notFound();
 
   return (
@@ -101,6 +104,7 @@ export default function ProjectDetail({
         <p>{project.description}</p>
       </div>
 
+      {/* Optional. Only a project that owns a level page sets levelDesign. */}
       {project.levelDesign && (
         <Link
           href={project.levelDesign.href}

@@ -1,5 +1,7 @@
-// Site Zero level-design media. Images live in /public/level-design/site-zero
-// (web-sized WebP, plus a -thumb.webp for grids).
+// Site Zero media catalog. Files live in /public/level-design/site-zero
+// as web-sized WebP, with a sibling -thumb.webp for grids and strips.
+// Prefixes: ref- references, bo- blockout captures, cmp- aligned pairs,
+// iter- one still per pass, plan- the annotated floor plan.
 
 export type LevelImage = {
   file: string; // base name, without extension
@@ -14,6 +16,8 @@ export type LevelImage = {
 };
 
 const BASE = "/level-design/site-zero";
+// Grids and strips ask for the thumb. The lightbox and the wide single
+// layout ask for the full frame, so the large file waits until it's opened.
 export const fullSrc = (img: LevelImage) => `${BASE}/${img.file}.webp`;
 export const thumbSrc = (img: LevelImage) => `${BASE}/${img.file}-thumb.webp`;
 
@@ -95,6 +99,8 @@ export type BlockoutGroup = {
   images: LevelImage[];
 };
 
+// Standard capture is 1600×900. Odd frames (the heightmap, the first
+// facade) set width and height themselves instead of using this.
 const shot = (
   file: string,
   title: string,
@@ -103,6 +109,9 @@ const shot = (
   intent?: string,
 ): LevelImage => ({ file, title, caption, alt, width: 1600, height: 900, intent });
 
+// Three groups, in walk order: the exterior map, the underground
+// facility, then the optional routes and the arena. The carousel
+// makes one tab per group.
 export const blockoutGroups: BlockoutGroup[] = [
   {
     id: "surface",

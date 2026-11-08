@@ -1,13 +1,11 @@
 "use client";
 
 /**
- * WebGL transition layer adapted from React Bits "MorphSlider" (ogl + gsap,
- * https://reactbits.dev). Changes for this site:
- *  - controlled: the parent owns the index, the stage just animates to it;
- *  - "contain" fit with a black letterbox, so no capture is cropped;
- *  - renders on demand (only while a transition runs) instead of every frame;
- *  - a scanline + phosphor tint during the transition for a security-feed glitch;
- *  - reports failure (no WebGL, lost context) so the parent can fall back to a fade.
+ * WebGL wipe between blockout captures. The carousel owns the index; this
+ * stage only animates to it. I letterbox so a capture is never cropped,
+ * and I draw only while a transition runs instead of every frame. If WebGL
+ * is missing or the context is lost, onFail lets the carousel keep the
+ * plain fade on the img underneath.
  */
 
 import { useEffect, useRef } from "react";
@@ -140,6 +138,8 @@ class MorphEngine {
     private onReady: () => void,
     private onFail: () => void,
   ) {
+    // Cap DPR at 2. A 3x phone would triple the fragment cost for a wipe
+    // that lasts under a second, and antialias is off for the same reason.
     this.renderer = new Renderer({ alpha: false, antialias: false, dpr: Math.min(window.devicePixelRatio || 1, 2) });
     this.gl = this.renderer.gl;
     if (!this.gl) throw new Error("WebGL unavailable");

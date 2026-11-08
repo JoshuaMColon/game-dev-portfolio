@@ -1,3 +1,5 @@
+// Shared chrome for the level-design viewers: arrows, counter, caption.
+// The caption is aria-live so a slide change is announced without moving focus.
 import type { LevelImage } from "@/lib/siteZero";
 import { pressable } from "@/lib/ui";
 
@@ -35,6 +37,8 @@ export function ArrowButton({
       title={prev ? `Previous ${label} (←)` : `Next ${label} (→)`}
       aria-label={prev ? `Previous ${label}` : `Next ${label}`}
       onClick={(e) => {
+        // The arrow sits on top of the slide. Without this, the click
+        // falls through and opens the lightbox instead of changing images.
         e.stopPropagation();
         onClick();
       }}
@@ -87,5 +91,7 @@ export function CaptionPanel({
   );
 }
 
+// Checked at call time. The viewers read this before starting a WebGL
+// wipe or a depth/accordion travel, and fall back to a fade.
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && !!window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

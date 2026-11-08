@@ -1,3 +1,6 @@
+// Single source for the homepage hero and every project route.
+// A new object here is enough: /projects lists it, and generateStaticParams
+// builds /projects/[slug]. status drives the chip; featured drives the hero.
 export type ProjectStatus = "flagship" | "in-progress" | "planned" | "complete";
 
 export type Project = {
@@ -16,13 +19,14 @@ export type Project = {
   videoUrl?: string; // YouTube embed URL, add once you have a capture
   githubUrl?: string;
   itchUrl?: string;
-  /** Internal link to this game's level-design page. */
+  /** Cross-link to this game's level-design page, when it has one. */
   levelDesign?: { href: string; label: string; blurb: string };
   featured?: boolean;
 };
 
 // Edit this file as each project moves forward.
 // status: "flagship" | "in-progress" | "planned" | "complete"
+// featured: true marks the homepage hero. Only one entry should set it.
 export const projects: Project[] = [
   {
     slug: "scp-tps",
@@ -101,5 +105,8 @@ export const projects: Project[] = [
   },
 ];
 
+// The homepage hero. Falls back to the first entry so the hero still
+// renders if I forget to mark one featured.
 export const flagship = projects.find((p) => p.featured) ?? projects[0];
+// The rest of the index, in file order, under the hero.
 export const supportingProjects = projects.filter((p) => !p.featured);

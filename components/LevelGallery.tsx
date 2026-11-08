@@ -15,6 +15,11 @@ type LevelGalleryProps = {
   group: string;
 };
 
+// Grid plus lightbox. The Zone A pair uses the shots grid (twoUp).
+// I portal the overlay to document.body: BorderGlow puts a transform
+// on the card, which would pin a position:fixed layer to the card,
+// and PixelCard's overflow:hidden would clip it. The other viewers
+// import this Lightbox and portal it the same way.
 export default function LevelGallery({ images, layout = "shots", group, twoUp = false }: LevelGalleryProps) {
   const [open, setOpen] = useState<number | null>(null);
   const lastTrigger = useRef<HTMLButtonElement | null>(null);
@@ -31,7 +36,9 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
       <ul className={gridClass} role="list">
         {images.map((img, i) => {
           const featured = layout === "refs" && i === 0;
-          // Second ref spans two columns so six refs read as 1 / 2+1 / 3 with no orphan.
+          // refs layout, if I use it: first image full width, second spans
+          // two columns, the rest are singles, so a set of six doesn't
+          // leave a single orphan on the last row.
           const wide = layout === "refs" && i === 1;
           return (
             <li key={img.file} className={`min-w-0 ${featured ? "col-span-full" : wide ? "col-span-2" : ""}`}>
@@ -40,6 +47,8 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
                 title={`Enlarge: ${img.title}`}
                 aria-label={`Enlarge image: ${img.title}`}
                 onClick={(e) => {
+                  // Remember who opened it so close can hand focus back.
+                  // The portal would otherwise dump focus on the body.
                   lastTrigger.current = e.currentTarget;
                   setOpen(i);
                 }}
@@ -54,6 +63,8 @@ export default function LevelGallery({ images, layout = "shots", group, twoUp = 
                           : "aspect-video"
                   }`}
                 >
+                  {/* Thumbs in the grid. The single layout is already the hero
+                      frame, so it uses the full WebP. The lightbox always does. */}
                   {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized static WebP, no runtime optimization needed */}
                   <img
                     src={layout === "single" ? fullSrc(img) : thumbSrc(img)}
@@ -138,6 +149,8 @@ export function Lightbox({ images, index, group, onIndex, onClose }: LightboxPro
       else if (e.key === "ArrowLeft" && many) go(-1);
     };
     window.addEventListener("keydown", onKey);
+    // Lock the page behind the overlay, and put the previous overflow
+    // back so I don't clobber a value something else set.
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
@@ -146,6 +159,7 @@ export function Lightbox({ images, index, group, onIndex, onClose }: LightboxPro
     };
   }, [go, many, onClose]);
 
+  // Focus the close control. The portal mounts outside the trigger.
   useEffect(() => {
     closeRef.current?.focus();
   }, []);
@@ -169,6 +183,8 @@ export function Lightbox({ images, index, group, onIndex, onClose }: LightboxPro
         const dx = e.changedTouches[0].clientX - start.x;
         const dy = e.changedTouches[0].clientY - start.y;
         if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          // Horizontal only, and only when it beats the vertical delta.
+          // A slightly diagonal scroll shouldn't change the image.
           e.preventDefault();
           go(dx < 0 ? 1 : -1);
         }

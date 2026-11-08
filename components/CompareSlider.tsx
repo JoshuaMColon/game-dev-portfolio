@@ -14,7 +14,11 @@ type CompareSliderProps = {
   name: string;
 };
 
-/** Drag, tap, or use the arrow keys to wipe between two aligned images. */
+/** Drag, tap, or use the arrow keys to wipe between two aligned images.
+ *  The blockout is the full frame. The reference is the same crop, clipped
+ *  from the right, so the divider wipes one into the other. pos 100 is all
+ *  reference; pos 0 is all blockout.
+ */
 export default function CompareSlider({ before, after, width, height, name }: CompareSliderProps) {
   const [pos, setPos] = useState(50);
   const box = useRef<HTMLDivElement | null>(null);
@@ -51,6 +55,7 @@ export default function CompareSlider({ before, after, width, height, name }: Co
         style={{ aspectRatio: `${width} / ${height}` }}
         onPointerDown={(e) => {
           dragging.current = true;
+          // Capture so the drag survives the pointer leaving the frame.
           (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
           fromClient(e.clientX);
         }}

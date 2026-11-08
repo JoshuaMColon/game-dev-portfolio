@@ -4,6 +4,8 @@ import SystemStatus from "@/components/SystemStatus";
 import { flagship, supportingProjects } from "@/lib/projects";
 import Link from "next/link";
 
+// Homepage hero is whichever project is featured in lib/projects.
+// No capture yet means a placeholder panel, not an empty iframe.
 export default function Home() {
   return (
     <>
@@ -97,7 +99,7 @@ export default function Home() {
 
       <SystemStatus />
 
-      {/* Supporting projects */}
+      {/* Everything that isn't featured, in file order. The full index is /projects. */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="flex items-baseline justify-between mb-6">
           <h2 className="font-display font-bold text-xl text-[var(--text-primary)]">
