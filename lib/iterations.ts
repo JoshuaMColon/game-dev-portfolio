@@ -17,7 +17,8 @@ const img = (file: string, title: string, caption: string, alt: string): LevelIm
   height: 900,
 });
 
-// Dates come from the capture timestamps of each pass's shot set.
+// One still per greybox pass. The date is the capture timestamp
+// (America/New_York), not the day I started the pass. v6 has no still.
 export const iterations: Iteration[] = [
   {
     version: "v4",

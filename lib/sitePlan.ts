@@ -1,12 +1,13 @@
-// Annotation data for the Proving Grounds plan. All coordinates are Unreal world
-// units (cm) read from a probe of the blockout: +X runs east along the route,
-// +Y is north. The base image covers X -1600..13420 and Y -1420..2370.
+// Overlay data for the Proving Grounds plan. Coordinates are Unreal
+// centimeters from a geometry probe: +X east along the route, +Y north.
+// The base image covers X -1600..13420 and Y -1420..2370.
 
 export const PLAN_BOUNDS = { x0: -1600, x1: 13420, y0: -1420, y1: 2370 };
 export const PLAN_W = PLAN_BOUNDS.x1 - PLAN_BOUNDS.x0; // 15020
 export const PLAN_H = PLAN_BOUNDS.y1 - PLAN_BOUNDS.y0; // 3790
 
-/** World XY to plan viewBox coordinates (north up). */
+// SVG y grows downward, so I flip Y against the north edge of the image.
+// That keeps north up in the viewBox without baking the flip into the data.
 export const toPlan = (x: number, y: number): [number, number] => [x - PLAN_BOUNDS.x0, PLAN_BOUNDS.y1 - y];
 /** World XY to % of the plan box, for HTML labels. */
 export const toPct = (x: number, y: number) => {
@@ -19,7 +20,8 @@ type Pt = [number, number];
 export const criticalPath: Pt[] = [
   [-1170, 0], [1000, 0], [1760, 0], [2830, 0], [3900, 0], [5220, 0], [6540, 0], [7070, 0],
 ];
-// Through the arena the player moves freely around the containment cell; drawn dashed.
+// Through the arena the player moves freely around the containment cell,
+// so this stretch is drawn dashed instead of as a single forced line.
 export const arenaPath: Pt[] = [[7070, 0], [7500, 0], [7700, 640], [8310, 760], [8920, 640], [9120, 0], [9570, 0]];
 export const exitPath: Pt[] = [[9570, 0], [10385, 0], [11500, 0], [12120, 0], [12990, 0]];
 
@@ -52,7 +54,8 @@ export const optionalRoutes: Route[] = [
 ];
 
 export type Sightline = { from: Pt; to: Pt; clear: boolean; label: string };
-// Each line was raycast against the blockout geometry at eye height (floor + 160).
+// Raycast against the blockout at eye height (floor + 160 cm). clear
+// is a dotted line; a miss gets the cross mark in the overlay.
 export const sightlines: Sightline[] = [
   { from: [-830, 0], to: [310, 0], clear: true, label: "Lift doors → lobby and Armory door" },
   { from: [1980, 0], to: [3580, 0], clear: true, label: "Zone B entry → centre enemy position" },

@@ -17,6 +17,8 @@ export const metadata = {
     "Site Zero: an SCP-inspired facility level in Unreal Engine 5, from reference library to playable blockout.",
 };
 
+// The critical path, written out as chips under the header. The walkthrough
+// video and the annotated plan tell the same route in more detail.
 const route = [
   "Forecourt",
   "Door 201",
@@ -30,8 +32,12 @@ const route = [
   "Return lift",
 ];
 
+// Comparison frames stay out of the LevelImage catalog. CompareSlider
+// wants raw srcs of the same crop, so the wipe actually lines up.
 const CMP = "/level-design/site-zero";
 
+// The administration blueprint is also in the reference library. Here it
+// sits next to the v8 plan so the layout comparison is one glance.
 const zoneAPlanPair: LevelImage[] = [
   {
     file: "ref-b1-administration",
@@ -52,7 +58,12 @@ const zoneAPlanPair: LevelImage[] = [
   },
 ];
 
+// Site Zero, in the order I actually worked it: the route, the references
+// I blocked from, the comparison, the annotated plan, the captures, then
+// the iteration log. Media itself lives in lib/siteZero.
 export default function LevelDesignPage() {
+  // Counted from the groups so the header and the footer stay in step
+  // when I add a capture.
   const shotCount = blockoutGroups.reduce((n, g) => n + g.images.length, 0);
 
   return (
@@ -205,6 +216,8 @@ export default function LevelDesignPage() {
             transition="shear"
             groups={blockoutGroups.map((g) => ({
               id: g.id,
+              // Tabs want a short name. The full map name stays on the group
+              // for the lightbox, so I cut the label at the first " · ".
               tab: g.label.split(" · ")[0].replace(" & encounter", ""),
               label: g.label,
               summary: g.summary,
