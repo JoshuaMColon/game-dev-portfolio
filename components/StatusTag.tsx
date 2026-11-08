@@ -1,5 +1,7 @@
 import { ProjectStatus } from "@/lib/projects";
 
+// Flagship and complete share the phosphor chip. In progress is amber
+// so a live build doesn't read as finished work.
 const STATUS_META: Record<ProjectStatus, { label: string; className: string }> = {
   flagship: { label: "FLAGSHIP", className: "text-phosphor border-phosphor/40" },
   "in-progress": { label: "IN PROGRESS", className: "text-amber border-amber/40" },

@@ -21,6 +21,8 @@ const SIGNAL_STYLES: Record<
   },
 };
 
+// Homepage status strip. I keep this list here on purpose: it is the
+// story I want under the hero, not a rollup of the tags in lib/projects.
 const CATEGORIES: { name: string; signal: Signal; note: string }[] = [
   {
     name: "AI & Behavior",
