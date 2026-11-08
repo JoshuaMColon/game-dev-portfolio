@@ -1,13 +1,10 @@
 "use client";
 
 /**
- * Reference library built on React Bits "DepthCarousel" (gsap,
- * https://reactbits.dev): the active reference sits in front and the next ones
- * recede in depth behind it. Adapted for this site: phosphor theme, landscape
- * cards that show the whole image, caption + design-intent panel, counter,
- * titled arrow buttons, swipe/drag, arrow keys, horizontal-only wheel (vertical
- * page scroll is never captured), click the front card to open the lightbox,
- * and a plain fade under reduced motion.
+ * Reference library. The active card sits in front and the next ones
+ * recede behind it. I only listen to horizontal wheel and drag, so a
+ * vertical scroll still moves the page. Reduced motion skips the travel
+ * and fades the new front card. Click the front card for the lightbox.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -57,6 +54,8 @@ export default function DepthReferences({ images, name, group }: { images: Level
       for (let i = 0; i < n; i++) {
         const el = cards.current[i];
         if (!el) continue;
+        // Shortest signed step around the ring, so the last card wraps
+        // to the first instead of flying the long way across the stage.
         let d = i - p;
         d = ((d % n) + n) % n;
         if (d > n / 2) d -= n;

@@ -23,8 +23,10 @@ export const walkthroughStops = [
 ];
 
 /**
- * Muted, looping route walkthrough. Plays only while on screen, and never
- * autoplays when the visitor prefers reduced motion.
+ * Muted, looping walkthrough of the captured shots in route order. It is
+ * not gameplay. I only play it while at least half the frame is on screen,
+ * and I never autoplay when reduced motion is set. A manual pause sticks
+ * until the visitor hits play again.
  */
 export default function RouteWalkthrough() {
   const ref = useRef<HTMLVideoElement | null>(null);
@@ -50,6 +52,8 @@ export default function RouteWalkthrough() {
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          // userPaused keeps a manual pause from being undone the moment
+          // the observer fires again.
           if (!userPaused.current) v.play().catch(() => {});
         } else {
           v.pause();
@@ -76,6 +80,8 @@ export default function RouteWalkthrough() {
   return (
     <figure className="m-0">
       <div className="relative overflow-hidden rounded-sm border border-[var(--line)] bg-black">
+        {/* preload=metadata keeps the poster up without pulling the whole
+            clip on every visit. WebM first, MP4 for browsers that skip it. */}
         <video
           ref={ref}
           className="block aspect-video h-auto w-full"

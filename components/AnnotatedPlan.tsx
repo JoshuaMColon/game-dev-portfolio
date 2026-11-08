@@ -64,6 +64,8 @@ const LAYERS: { id: LayerId; label: string; hint: string; swatch: React.ReactNod
 
 const pts = (p: [number, number][]) => p.map(([x, y]) => toPlan(x, y).join(",")).join(" ");
 
+// Layers start on. A first look should show the whole read; the toggles
+// are for isolating one system (sightlines, sealed exits) during a walkthrough.
 export default function AnnotatedPlan() {
   const [on, setOn] = useState<Record<LayerId, boolean>>({
     path: true,
@@ -119,6 +121,11 @@ export default function AnnotatedPlan() {
             className="block h-auto w-full select-none"
             draggable={false}
           />
+          {/* World units in the viewBox, stretched to the image
+              (preserveAspectRatio none) so a probe coordinate lands on the
+              pixel it was measured against. non-scaling-stroke keeps a
+              3-unit stroke a couple of pixels instead of scaling with the
+              15,000 cm viewBox. */}
           <svg
             viewBox={`0 0 ${PLAN_W} ${PLAN_H}`}
             className="absolute inset-0 h-full w-full"
@@ -262,7 +269,8 @@ export default function AnnotatedPlan() {
             )}
           </svg>
 
-          {/* HTML labels stay crisp at any zoom */}
+          {/* HTML labels, not SVG text. They stay the same size when the
+              plan is panned on a phone instead of shrinking with the viewBox. */}
           <div className="pointer-events-none absolute inset-0 font-mono text-[9px] tracking-wider">
             {zoneLabels.map((z) => (
               <span
@@ -276,6 +284,8 @@ export default function AnnotatedPlan() {
             {on.routes &&
               optionalRoutes.map((r) => {
                 const [x, y] = r.points[Math.floor(r.points.length / 2)];
+                // Nudged off the polyline. The midpoint sits on the route
+                // and would cover the line.
                 const pos = r.id === "F2" ? { x: 2830, y: 1050 } : r.id === "SL" ? { x: 6890, y: 1250 } : r.id === "F1" ? { x: 1300, y: -820 } : { x: 5150, y: -1000 };
                 return (
                   <span
